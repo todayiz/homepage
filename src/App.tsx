@@ -106,67 +106,100 @@ function App() {
       {/* About Section */}
       <section id="about" className="about">
         <div className="container">
-          <div className="section-header">
-            <span className="section-label">ABOUT US</span>
-            <h2 className="section-title">회사 소개</h2>
-          </div>
-
-          <div className="about__content">
-            <div className="about__intro">
-              <h3>
-                <span className="highlight">㈜오늘이즈</span>는<br />
-                IT 기술의 혁신을 선도합니다
-              </h3>
-              <p>
-                시스템 통합 구축부터 블록체인, 인공지능까지<br />
-                최신 기술력으로 고객의 디지털 전환을 지원합니다
+          <div className="about__wrapper">
+            <div className="about__left">
+              <span className="section-label">ABOUT US</span>
+              <h2 className="about__title">
+                당신의 가장 소중한<br />
+                <span className="highlight">오늘</span>을 함께하는 기업
+              </h2>
+              <p className="about__desc">
+                ㈜오늘이즈는 시스템 통합 구축부터 블록체인, 인공지능까지
+                최신 기술력으로 고객의 디지털 전환을 지원합니다.
               </p>
+              <div className="about__stats">
+                <div className="about__stat">
+                  <span className="about__stat-number">2025</span>
+                  <span className="about__stat-label">설립연도</span>
+                </div>
+                <div className="about__stat">
+                  <span className="about__stat-number">6+</span>
+                  <span className="about__stat-label">주요 프로젝트</span>
+                </div>
+                <div className="about__stat">
+                  <span className="about__stat-number">100%</span>
+                  <span className="about__stat-label">고객 만족</span>
+                </div>
+              </div>
             </div>
 
-            <div className="about__info-grid">
-              <div className="about__info-card">
-                <div className="about__info-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16m14 0H5m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5m-4 0h4"/>
-                  </svg>
+            <div className="about__right">
+              <div className="about__info-list">
+                <div className="about__info-item">
+                  <div className="about__info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16m14 0H5m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5m-4 0h4"/>
+                    </svg>
+                  </div>
+                  <div className="about__info-content">
+                    <span className="about__info-label">법인명</span>
+                    <span className="about__info-value">㈜오늘이즈 (Todayiz)</span>
+                  </div>
                 </div>
-                <h4>법인명</h4>
-                <p>㈜오늘이즈 (Todayiz)</p>
-              </div>
 
-              <div className="about__info-card">
-                <div className="about__info-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                  </svg>
+                <div className="about__info-item">
+                  <div className="about__info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                  </div>
+                  <div className="about__info-content">
+                    <span className="about__info-label">대표이사</span>
+                    <span className="about__info-value">채 진</span>
+                  </div>
                 </div>
-                <h4>대표이사</h4>
-                <p>채 진</p>
-              </div>
 
-              <div className="about__info-card">
-                <div className="about__info-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                    <line x1="16" y1="2" x2="16" y2="6"/>
-                    <line x1="8" y1="2" x2="8" y2="6"/>
-                    <line x1="3" y1="10" x2="21" y2="10"/>
-                  </svg>
+                <div className="about__info-item">
+                  <div className="about__info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                      <line x1="16" y1="2" x2="16" y2="6"/>
+                      <line x1="8" y1="2" x2="8" y2="6"/>
+                      <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                  </div>
+                  <div className="about__info-content">
+                    <span className="about__info-label">설립일자</span>
+                    <span className="about__info-value">2025년 2월 10일</span>
+                  </div>
                 </div>
-                <h4>설립일자</h4>
-                <p>2025년 2월 10일</p>
-              </div>
 
-              <div className="about__info-card">
-                <div className="about__info-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
+                <div className="about__info-item">
+                  <div className="about__info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                      <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                  </div>
+                  <div className="about__info-content">
+                    <span className="about__info-label">주소</span>
+                    <span className="about__info-value">서울시 금천구 서부샛길 606<br />대성디폴리스지식산업센터 지하114</span>
+                  </div>
                 </div>
-                <h4>주소</h4>
-                <p>서울시 금천구 서부샛길 606<br />대성디폴리스지식산업센터 지하114</p>
+
+                <div className="about__info-item">
+                  <div className="about__info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                  </div>
+                  <div className="about__info-content">
+                    <span className="about__info-label">웹사이트</span>
+                    <span className="about__info-value">www.todayiz.io</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
