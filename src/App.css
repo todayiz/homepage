@@ -248,7 +248,7 @@
 }
 
 .about__intro p {
-  font-size: 1.25rem;
+  font-size: 1.0625rem;
   color: var(--gray-600);
 }
 
@@ -299,7 +299,7 @@
 }
 
 .about__info-card p {
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--gray-900);
   line-height: 1.6;
