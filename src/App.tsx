@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import logo from './assets/logo.svg'
+import aiServiceDiagram from './assets/인공지능서비스구성.svg'
+import blockchainAuthDiagram from './assets/블록체인기반사용자인증서비스구성.svg'
+import blockchainKeyDiagram from './assets/블록체인기반사용자개인키관리구성.svg'
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -11,6 +14,7 @@ function App() {
     phone: '',
     message: ''
   })
+  const [modalImage, setModalImage] = useState<{ src: string; alt: string } | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,6 +45,16 @@ function App() {
       `문의 내용:\n${message}`
     )
     window.location.href = `mailto:jinchai0407@daum.net?subject=${subject}&body=${body}`
+  }
+
+  const openImageModal = (src: string, alt: string) => {
+    setModalImage({ src, alt })
+    document.body.style.overflow = 'hidden'
+  }
+
+  const closeImageModal = () => {
+    setModalImage(null)
+    document.body.style.overflow = ''
   }
 
   return (
@@ -206,61 +220,147 @@ function App() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="services">
+      {/* Services Header Section */}
+      <section id="services" className="services-header">
         <div className="container">
           <div className="section-header">
             <span className="section-label">BUSINESS</span>
             <h2 className="section-title">주요 사업 분야</h2>
+            <p className="section-desc">최신 기술력으로 고객의 디지털 전환을 지원합니다</p>
           </div>
+        </div>
+      </section>
 
-          <div className="services__grid">
-            <div className="service-card service-card--large">
-              <div className="service-card__icon">
+      {/* Service 1: 시스템 통합 */}
+      <section id="service-si" className="service-section service-section--light">
+        <div className="container">
+          <div className="service-section__content">
+            <div className="service-section__info">
+              <div className="service-section__number">01</div>
+              <div className="service-section__icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <rect x="2" y="3" width="20" height="14" rx="2"/>
                   <path d="M8 21h8m-4-4v4"/>
                 </svg>
               </div>
-              <h3>시스템 통합 (SI)</h3>
-              <ul>
+              <h3 className="service-section__title">시스템 통합 (SI)</h3>
+              <p className="service-section__desc">
+                공공기관 및 기업의 디지털 인프라를 설계하고 구축합니다.
+                안정적인 시스템 운영과 지속적인 기술 지원을 제공합니다.
+              </p>
+              <ul className="service-section__list">
                 <li>공공/기업 시스템 구축 및 유지보수</li>
                 <li>웹사이트 · 모바일 서비스 개발</li>
                 <li>SW 엔지니어링 기술지원</li>
                 <li>상용SW 공급 및 기술지원</li>
               </ul>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="service-card service-card--large">
-              <div className="service-card__icon">
+      {/* Service 2: 블록체인 & 보안 */}
+      <section id="service-blockchain" className="service-section service-section--dark">
+        <div className="container">
+          <div className="service-section__content service-section__content--reverse">
+            <div className="service-section__info">
+              <div className="service-section__number">02</div>
+              <div className="service-section__icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                 </svg>
               </div>
-              <h3>블록체인 & 보안</h3>
-              <ul>
+              <h3 className="service-section__title">블록체인 & 보안</h3>
+              <p className="service-section__desc">
+                블록체인 기술을 활용한 안전하고 투명한 서비스를 개발합니다.
+                데이터 보안과 사용자 인증의 새로운 패러다임을 제시합니다.
+              </p>
+              <ul className="service-section__list">
                 <li>블록체인 기반 서비스 개발</li>
                 <li>데이터 암호화 및 보안 서비스</li>
                 <li>DB보안 솔루션 (PrivacyDB) 공급</li>
                 <li>DB접근제어 솔루션 (ChakraMax) 공급</li>
               </ul>
             </div>
+            <div className="service-section__visual">
+              <div className="service-section__diagrams">
+                <div className="service-section__diagram">
+                  <h4>사용자 인증 서비스 구성</h4>
+                  <div
+                    className="service-section__diagram-img service-section__diagram-img--clickable"
+                    onClick={() => openImageModal(blockchainAuthDiagram, '블록체인 기반 사용자 인증 서비스 구성도')}
+                  >
+                    <img src={blockchainAuthDiagram} alt="블록체인 기반 사용자 인증 서비스 구성도" />
+                    <div className="service-section__diagram-zoom">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35M11 8v6M8 11h6"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className="service-section__diagram">
+                  <h4>개인키 관리 서비스 구성</h4>
+                  <div
+                    className="service-section__diagram-img service-section__diagram-img--clickable"
+                    onClick={() => openImageModal(blockchainKeyDiagram, '블록체인 기반 사용자 개인키 관리 구성도')}
+                  >
+                    <img src={blockchainKeyDiagram} alt="블록체인 기반 사용자 개인키 관리 구성도" />
+                    <div className="service-section__diagram-zoom">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35M11 8v6M8 11h6"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="service-card service-card--large">
-              <div className="service-card__icon">
+      {/* Service 3: 인공지능 */}
+      <section id="service-ai" className="service-section service-section--gradient">
+        <div className="container">
+          <div className="service-section__content">
+            <div className="service-section__info">
+              <div className="service-section__number">03</div>
+              <div className="service-section__icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M12 2a4 4 0 0 1 4 4c0 1.1-.9 2-2 2h-4c-1.1 0-2-.9-2-2a4 4 0 0 1 4-4z"/>
                   <path d="M12 8v8m-4-4h8"/>
                   <circle cx="12" cy="18" r="4"/>
                 </svg>
               </div>
-              <h3>인공지능 (AI)</h3>
-              <ul>
+              <h3 className="service-section__title">인공지능 (AI)</h3>
+              <p className="service-section__desc">
+                최신 AI 기술을 활용하여 비즈니스 인사이트를 제공합니다.
+                LLM 기반의 지능형 서비스로 업무 효율을 극대화합니다.
+              </p>
+              <ul className="service-section__list">
                 <li>LLM 기반 AI 모델 개발 및 서비스</li>
                 <li>빅데이터 기반 데이터 분석</li>
                 <li>AI 매칭 · 예측 · 추천 서비스</li>
                 <li>AI 분류 및 분석 서비스 개발</li>
               </ul>
+            </div>
+            <div className="service-section__visual">
+              <div className="service-section__diagram service-section__diagram--single">
+                <h4>AI 서비스 구성</h4>
+                <div
+                  className="service-section__diagram-img service-section__diagram-img--clickable"
+                  onClick={() => openImageModal(aiServiceDiagram, '인공지능 서비스 구성도')}
+                >
+                  <img src={aiServiceDiagram} alt="인공지능 서비스 구성도" />
+                  <div className="service-section__diagram-zoom">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="11" cy="11" r="8"/>
+                      <path d="m21 21-4.35-4.35M11 8v6M8 11h6"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -472,6 +572,26 @@ function App() {
         </div>
       </section>
 
+      {/* Image Modal */}
+      {modalImage && (
+        <div className="image-modal" onClick={closeImageModal}>
+          <div className="image-modal__overlay" />
+          <div className="image-modal__content" onClick={(e) => e.stopPropagation()}>
+            <button className="image-modal__close" onClick={closeImageModal}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 6L6 18M6 6l12 12"/>
+              </svg>
+            </button>
+            <div className="image-modal__header">
+              <h3>{modalImage.alt}</h3>
+            </div>
+            <div className="image-modal__body">
+              <img src={modalImage.src} alt={modalImage.alt} />
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Footer */}
       <footer className="footer">
         <div className="container">
@@ -496,9 +616,9 @@ function App() {
               <div className="footer__column">
                 <h4>사업분야</h4>
                 <ul>
-                  <li>시스템 통합</li>
-                  <li>블록체인 & 보안</li>
-                  <li>인공지능</li>
+                  <li onClick={() => scrollToSection('service-si')}>시스템 통합</li>
+                  <li onClick={() => scrollToSection('service-blockchain')}>블록체인 & 보안</li>
+                  <li onClick={() => scrollToSection('service-ai')}>인공지능</li>
                 </ul>
               </div>
             </div>
