@@ -544,16 +544,20 @@
 }
 
 .service-section__diagram-img {
-  background: var(--white);
+  background: #ffffff;
   border-radius: 12px;
   padding: 20px;
   overflow: hidden;
+  /* 다크모드에서도 항상 밝은 배경 유지 */
+  color-scheme: light;
 }
 
 .service-section__diagram-img img {
   width: 100%;
   height: auto;
   display: block;
+  /* 다크모드에서 SVG 색상 반전 방지 */
+  filter: none;
 }
 
 /* Clickable Diagram */
@@ -700,6 +704,7 @@
   padding: 24px;
   overflow: auto;
   max-height: calc(95vh - 100px);
+  background: #ffffff;
 }
 
 .image-modal__body img {
@@ -707,6 +712,10 @@
   height: auto;
   display: block;
   border-radius: 8px;
+  background: #ffffff;
+  /* 다크모드에서도 SVG 이미지가 정상적으로 보이도록 강제 */
+  filter: none;
+  color-scheme: light;
 }
 
 /* ===================================
