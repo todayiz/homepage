@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import logo from './assets/logo.svg'
-import aiServiceDiagram from './assets/인공지능서비스구성.svg'
-import blockchainAuthDiagram from './assets/블록체인기반사용자인증서비스구성.svg'
-import blockchainKeyDiagram from './assets/블록체인기반사용자개인키관리구성.svg'
+import aiServiceDiagram from './assets/인공지능서비스구성.jpg'
+import blockchainAuthDiagram from './assets/블록체인기반사용자인증서비스구성.jpg'
+import blockchainKeyDiagram from './assets/블록체인기반사용자개인키관리구성.jpg'
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -198,7 +198,7 @@ function App() {
                   </div>
                   <div className="about__info-content">
                     <span className="about__info-label">주소</span>
-                    <span className="about__info-value">서울시 금천구 서부샛길 606<br />대성디폴리스지식산업센터 지하114</span>
+                    <span className="about__info-value">서울특별시 금천구 가산디지털2로 135<br />어반워크 1동 1412호</span>
                   </div>
                 </div>
 
@@ -507,7 +507,7 @@ function App() {
                   </svg>
                   <div>
                     <strong>주소</strong>
-                    <p>서울시 금천구 서부샛길 606<br />대성디폴리스지식산업센터 지하114</p>
+                    <p>서울특별시 금천구 가산디지털2로 135<br />어반워크 1동 1412호</p>
                   </div>
                 </div>
 
