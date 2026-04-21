@@ -1,6 +1,6 @@
 # GitHub Pages 배포 가이드
 
-Firebase Hosting → GitHub Pages 이전 절차. 저장소: `todayiz-team/website` (프로젝트 사이트 형태, 최종 URL: `https://todayiz-team.github.io/website/`).
+Firebase Hosting → GitHub Pages 이전 절차. 저장소: `todayiz/homepage` (프로젝트 사이트 형태, 기본 URL: `https://todayiz.github.io/homepage/`). 현재 커스텀 도메인 `todayiz.io`가 적용되어 있어 실제 서비스 URL은 `https://todayiz.io/` 이다.
 
 ---
 
@@ -8,24 +8,24 @@ Firebase Hosting → GitHub Pages 이전 절차. 저장소: `todayiz-team/websit
 
 프로젝트 사이트는 `/<repo>/` 하위에서 서비스되므로 빌드 시 `base`를 지정해야 한다. 로컬 `dev`에서는 `/`를 유지하도록 분기.
 
-`vite.config.ts` 수정:
+**현재 상태**: 커스텀 도메인 `todayiz.io`를 쓰므로 `base`는 `/`로 충분하다. 아래 `vite.config.ts`는 그대로 유지.
 
 ```ts
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 
-export default defineConfig(({ command }) => ({
+// https://vite.dev/config/
+export default defineConfig({
   plugins: [react()],
-  base: command === 'build' ? '/website/' : '/',
   server: {
     host: '127.0.0.1',
     port: 5174,
     strictPort: true,
   },
-}))
+})
 ```
 
-> 커스텀 도메인(예: `www.todayiz.com`)을 쓸 예정이면 `base`는 `/`로 두면 된다.
+> 커스텀 도메인을 해제하고 `https://todayiz.github.io/homepage/`로만 서비스할 경우에는 `base: command === 'build' ? '/homepage/' : '/'`로 분기해야 한다.
 
 ---
 
@@ -112,19 +112,21 @@ jobs:
 1. GitHub 저장소 → **Settings** → **Pages**
 2. **Build and deployment** → **Source**를 `GitHub Actions`로 변경
 3. `main`에 push하면 위 워크플로가 자동으로 실행됨
-4. 첫 배포 완료 후 `https://todayiz-team.github.io/website/` 접속 확인
+4. 첫 배포 완료 후 `https://todayiz.github.io/homepage/` (또는 커스텀 도메인 `https://todayiz.io/`) 접속 확인
 
 ---
 
-## 6. 커스텀 도메인 (선택)
+## 6. 커스텀 도메인 (현재 적용: `todayiz.io`)
 
-1. Settings → Pages → **Custom domain**에 도메인 입력 (예: `www.todayiz.com`)
-2. DNS 공급자에서 CNAME 레코드 추가:
-   - `www` → `todayiz-team.github.io`
+1. Settings → Pages → **Custom domain**에 `todayiz.io` 입력
+2. DNS 공급자에서 레코드 추가:
+   - `www` → `todayiz.github.io` (CNAME)
    - 루트(`@`)는 A 레코드 4개 (`185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`)
-3. `public/CNAME` 파일에 도메인 한 줄 기입 (빌드 시 `dist/CNAME`으로 복사됨)
+3. CNAME 파일 위치 주의:
+   - 현재 저장소 루트에 `CNAME` (`todayiz.io`)이 있는데, GitHub Actions 배포는 `dist/`만 업로드하므로 **루트 CNAME은 효과가 없다**.
+   - `public/CNAME`에 두면 Vite가 빌드 시 `dist/CNAME`으로 복사해 준다. **루트 CNAME은 삭제하고 `public/CNAME`으로 옮기는 것을 권장.**
 4. **Enforce HTTPS** 체크
-5. 커스텀 도메인을 쓰면 `vite.config.ts`의 `base`를 `/`로 되돌리기
+5. 커스텀 도메인을 쓰는 동안에는 `vite.config.ts`의 `base`는 `/` 유지
 
 ---
 
@@ -142,10 +144,10 @@ jobs:
 
 ## 8. 체크리스트
 
-- [ ] `vite.config.ts`에 `base` 추가
-- [ ] `.github/workflows/deploy.yml` 추가
+- [x] `vite.config.ts` `base` — 커스텀 도메인 사용 중이라 `/` 유지 (변경 불필요)
+- [ ] `.github/workflows/deploy.yml` 추가 (현재 미존재)
 - [ ] Settings → Pages → Source = GitHub Actions
 - [ ] `main` push 후 Actions 성공 확인
 - [ ] 배포 URL 접속 확인 (에셋 404 없는지 devtools 확인)
-- [ ] (선택) 커스텀 도메인 + CNAME 설정
-- [ ] Firebase Hosting 리소스 정리
+- [ ] 루트 `CNAME` → `public/CNAME`으로 이동 (Actions 배포에서 dist에 포함되도록)
+- [ ] Firebase Hosting 리소스 정리 (`firebase.json`, `.firebaserc` 제거)
