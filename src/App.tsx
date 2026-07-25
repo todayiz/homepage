@@ -1,9 +1,18 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import logo from './assets/logo.svg'
-import aiServiceDiagram from './assets/인공지능서비스구성.jpg'
-import blockchainAuthDiagram from './assets/블록체인기반사용자인증서비스구성.jpg'
-import blockchainKeyDiagram from './assets/블록체인기반사용자개인키관리구성.jpg'
+import aiServiceDiagram from './assets/인공지능2.png'
+import blockchainAuthDiagram from './assets/블록체인기반사용자인증서비스구성.png'
+import blockchainKeyDiagram from './assets/블록체인기반사용자개인키관리구성.png'
+import {
+  aiService,
+  clients,
+  companyInfo,
+  history,
+  paradiseCase,
+  portfolio,
+  stats,
+} from './data/company'
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -79,6 +88,7 @@ function App() {
           <ul className={`nav__menu ${isMenuOpen ? 'nav__menu--open' : ''}`}>
             <li onClick={() => scrollToSection('about')}>회사소개</li>
             <li onClick={() => scrollToSection('services')}>사업분야</li>
+            <li onClick={() => scrollToSection('case-paradise')}>고객사례</li>
             <li onClick={() => scrollToSection('history')}>연혁</li>
             <li onClick={() => scrollToSection('portfolio')}>사업실적</li>
             <li onClick={() => scrollToSection('contact')}>문의하기</li>
@@ -102,6 +112,7 @@ function App() {
             시스템 통합 · 블록체인 · 인공지능<br />
             최신 기술로 비즈니스의 미래를 설계합니다
           </p>
+          <p className="hero__slogan">{companyInfo.sloganEn}</p>
           <div className="hero__buttons">
             <button className="btn btn--primary" onClick={() => scrollToSection('services')}>
               서비스 알아보기
@@ -132,18 +143,12 @@ function App() {
                 최신 기술력으로 고객의 디지털 전환을 지원합니다.
               </p>
               <div className="about__stats">
-                <div className="about__stat">
-                  <span className="about__stat-number">2025</span>
-                  <span className="about__stat-label">설립연도</span>
-                </div>
-                <div className="about__stat">
-                  <span className="about__stat-number">6+</span>
-                  <span className="about__stat-label">주요 프로젝트</span>
-                </div>
-                <div className="about__stat">
-                  <span className="about__stat-number">100%</span>
-                  <span className="about__stat-label">고객 만족</span>
-                </div>
+                {stats.map((stat) => (
+                  <div className="about__stat" key={stat.label}>
+                    <span className="about__stat-number">{stat.number}</span>
+                    <span className="about__stat-label">{stat.label}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -157,7 +162,7 @@ function App() {
                   </div>
                   <div className="about__info-content">
                     <span className="about__info-label">법인명</span>
-                    <span className="about__info-value">㈜오늘이즈 (Todayiz)</span>
+                    <span className="about__info-value">{companyInfo.name}</span>
                   </div>
                 </div>
 
@@ -170,7 +175,7 @@ function App() {
                   </div>
                   <div className="about__info-content">
                     <span className="about__info-label">대표이사</span>
-                    <span className="about__info-value">채 진</span>
+                    <span className="about__info-value">{companyInfo.ceo}</span>
                   </div>
                 </div>
 
@@ -185,7 +190,7 @@ function App() {
                   </div>
                   <div className="about__info-content">
                     <span className="about__info-label">설립일자</span>
-                    <span className="about__info-value">2025년 2월 10일</span>
+                    <span className="about__info-value">{companyInfo.founded}</span>
                   </div>
                 </div>
 
@@ -198,7 +203,7 @@ function App() {
                   </div>
                   <div className="about__info-content">
                     <span className="about__info-label">주소</span>
-                    <span className="about__info-value">서울특별시 금천구 가산디지털2로 135<br />어반워크 1동 1412호</span>
+                    <span className="about__info-value">{companyInfo.address}<br />{companyInfo.addressDetail}</span>
                   </div>
                 </div>
 
@@ -211,7 +216,7 @@ function App() {
                   </div>
                   <div className="about__info-content">
                     <span className="about__info-label">웹사이트</span>
-                    <span className="about__info-value">www.todayiz.io</span>
+                    <span className="about__info-value">{companyInfo.website}</span>
                   </div>
                 </div>
               </div>
@@ -335,14 +340,13 @@ function App() {
               </div>
               <h3 className="service-section__title">인공지능 (AI)</h3>
               <p className="service-section__desc">
-                최신 AI 기술을 활용하여 비즈니스 인사이트를 제공합니다.
+                데이터 수집부터 지식화, 추론, 서비스까지 AI 파이프라인 전 과정을 설계합니다.
                 LLM 기반의 지능형 서비스로 업무 효율을 극대화합니다.
               </p>
               <ul className="service-section__list">
-                <li>LLM 기반 AI 모델 개발 및 서비스</li>
-                <li>빅데이터 기반 데이터 분석</li>
-                <li>AI 매칭 · 예측 · 추천 서비스</li>
-                <li>AI 분류 및 분석 서비스 개발</li>
+                {aiService.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
               </ul>
             </div>
             <div className="service-section__visual">
@@ -366,6 +370,49 @@ function App() {
         </div>
       </section>
 
+      {/* Client Highlight: 호텔·리조트 파트너십 */}
+      <section id="case-paradise" className="case">
+        <div className="container">
+          <div className="section-header">
+            <span className="section-label">CLIENT HIGHLIGHT</span>
+            <h2 className="section-title">호텔 · 리조트 파트너십</h2>
+            <p className="section-desc">복합리조트 운영 시스템의 디지털 전환을 함께하고 있습니다</p>
+          </div>
+
+          <div className="case__client">
+            <div className="case__client-mark">P</div>
+            <div className="case__client-info">
+              <h3>
+                {paradiseCase.client}
+                <span className="case__client-en">({paradiseCase.clientEn})</span>
+              </h3>
+              <p className="case__client-operator">{paradiseCase.operator}</p>
+              <p className="case__client-desc">{paradiseCase.description}</p>
+            </div>
+            <span className="case__badge">{paradiseCase.badge}</span>
+          </div>
+
+          <div className="case__projects">
+            {paradiseCase.projects.map((project) => (
+              <article className="case__project" key={project.date}>
+                <div className="case__project-head">
+                  <span className="case__project-date">{project.date}</span>
+                  <span className="case__project-period">{project.period}</span>
+                </div>
+                <span className="case__project-subtitle">{project.subtitle}</span>
+                <h4 className="case__project-title">{project.title}</h4>
+                <p className="case__project-problem">{project.problem}</p>
+                <ul className="case__project-points">
+                  {project.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* History Section */}
       <section id="history" className="history">
         <div className="container">
@@ -374,42 +421,25 @@ function App() {
             <h2 className="section-title">주요 연혁</h2>
           </div>
 
-          <div className="history__timeline">
-            <div className="history__year">
-              <h3>2025</h3>
-            </div>
+          {history.map((group) => (
+            <div className="history__timeline" key={group.year}>
+              <div className="history__year">
+                <h3>{group.year}</h3>
+              </div>
 
-            <div className="history__items">
-              <div className="history__item">
-                <span className="history__date">12월</span>
-                <p>㈜웨어밸리 ChakraMax DB접근제어 솔루션 공급</p>
-              </div>
-              <div className="history__item">
-                <span className="history__date">12월</span>
-                <p>㈜아울시스템즈 PrivacyDB DB보안 솔루션 공급</p>
-              </div>
-              <div className="history__item">
-                <span className="history__date">07월</span>
-                <p>파라다이스시티 전자문서 및 전자계약 관리시스템 사업</p>
-              </div>
-              <div className="history__item">
-                <span className="history__date">03월</span>
-                <p>공수처 전자적 증거보존관리시스템 유지보수 사업</p>
-              </div>
-              <div className="history__item">
-                <span className="history__date">02월</span>
-                <p>천성덕 포렌식연구소 myproof 앱 구축 사업</p>
-              </div>
-              <div className="history__item">
-                <span className="history__date">02월</span>
-                <p>한국포렌식학회 대표홈페이지 유지보수 사업</p>
-              </div>
-              <div className="history__item history__item--highlight">
-                <span className="history__date">02월</span>
-                <p>㈜오늘이즈 설립</p>
+              <div className="history__items">
+                {group.items.map((item) => (
+                  <div
+                    className={`history__item ${item.highlight ? 'history__item--highlight' : ''}`}
+                    key={`${item.month}-${item.text}`}
+                  >
+                    <span className="history__date">{item.month}</span>
+                    <p>{item.text}</p>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -421,66 +451,32 @@ function App() {
             <h2 className="section-title">주요 사업 실적</h2>
           </div>
 
-          <div className="portfolio__grid">
-            <div className="portfolio__card">
-              <div className="portfolio__card-header">
-                <span className="portfolio__client">고위공직자범죄수사처</span>
+          {portfolio.map((group) => (
+            <div className="portfolio__group" key={group.year}>
+              <h3 className="portfolio__year">{group.year}</h3>
+              <div className="portfolio__grid">
+                {group.items.map((item) => (
+                  <div className="portfolio__card" key={`${item.client}-${item.title}`}>
+                    <div className="portfolio__card-header">
+                      <span className="portfolio__client">{item.client}</span>
+                    </div>
+                    <h4>{item.title}</h4>
+                    <p>{item.role}</p>
+                  </div>
+                ))}
               </div>
-              <h4>전자적 증거보존관리시스템</h4>
-              <p>유지보수</p>
             </div>
-
-            <div className="portfolio__card">
-              <div className="portfolio__card-header">
-                <span className="portfolio__client">천성덕 디지털포렌식연구소</span>
-              </div>
-              <h4>마이프루프 앱</h4>
-              <p>개발 및 공급</p>
-            </div>
-
-            <div className="portfolio__card">
-              <div className="portfolio__card-header">
-                <span className="portfolio__client">파라다이스세가사미</span>
-              </div>
-              <h4>전자문서 및 전자계약시스템</h4>
-              <p>구축</p>
-            </div>
-
-            <div className="portfolio__card">
-              <div className="portfolio__card-header">
-                <span className="portfolio__client">한국포렌식학회</span>
-              </div>
-              <h4>대표홈페이지</h4>
-              <p>유지보수</p>
-            </div>
-
-            <div className="portfolio__card">
-              <div className="portfolio__card-header">
-                <span className="portfolio__client">아울시스템즈</span>
-              </div>
-              <h4>DB보안 솔루션 PrivacyDB</h4>
-              <p>공급</p>
-            </div>
-
-            <div className="portfolio__card">
-              <div className="portfolio__card-header">
-                <span className="portfolio__client">웨어밸리</span>
-              </div>
-              <h4>DB접근제어 솔루션 ChakraMax</h4>
-              <p>공급</p>
-            </div>
-          </div>
+          ))}
 
           {/* Clients */}
           <div className="clients">
             <h3 className="clients__title">주요 고객사</h3>
             <div className="clients__list">
-              <div className="clients__item">고위공직자범죄수사처</div>
-              <div className="clients__item">파라다이스시티</div>
-              <div className="clients__item">천성덕 디지털포렌식연구소</div>
-              <div className="clients__item">한국포렌식학회</div>
-              <div className="clients__item">아울시스템즈</div>
-              <div className="clients__item">웨어밸리</div>
+              {clients.map((client) => (
+                <div className="clients__item" key={client}>
+                  {client}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -507,7 +503,7 @@ function App() {
                   </svg>
                   <div>
                     <strong>주소</strong>
-                    <p>서울특별시 금천구 가산디지털2로 135<br />어반워크 1동 1412호</p>
+                    <p>{companyInfo.address}<br />{companyInfo.addressDetail}</p>
                   </div>
                 </div>
 
@@ -518,7 +514,7 @@ function App() {
                   </svg>
                   <div>
                     <strong>웹사이트</strong>
-                    <p>www.todayiz.io</p>
+                    <p>{companyInfo.website}</p>
                   </div>
                 </div>
               </div>
@@ -600,7 +596,7 @@ function App() {
               <div className="footer__logo">
                 <img src={logo} alt="오늘이즈 로고" className="footer__logo-img" />
               </div>
-              <p>당신의 가장 소중한 오늘을 함께하는 기업</p>
+              <p>{companyInfo.slogan}</p>
             </div>
 
             <div className="footer__links">
@@ -609,6 +605,7 @@ function App() {
                 <ul>
                   <li onClick={() => scrollToSection('about')}>회사소개</li>
                   <li onClick={() => scrollToSection('services')}>사업분야</li>
+                  <li onClick={() => scrollToSection('case-paradise')}>고객사례</li>
                   <li onClick={() => scrollToSection('portfolio')}>사업실적</li>
                   <li onClick={() => scrollToSection('contact')}>문의하기</li>
                 </ul>
