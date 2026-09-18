@@ -1,28 +1,34 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import logo from './assets/logo.svg'
-import aiServiceDiagram from './assets/인공지능2.png'
+import researchCert from './assets/기업부설연구소인정서.jpg'
+import ventureCert from './assets/벤처기업확인서.jpg'
+import ransomDefenseImg from './assets/랜섬디펜스.png'
+import softFilterImg from './assets/소프트필터화면.png'
+import trafficImg from './assets/고속도로통행량분석.png'
+import chargerImg from './assets/휴게소충전소현황.jpg'
 import blockchainAuthDiagram from './assets/블록체인기반사용자인증서비스구성.png'
 import blockchainKeyDiagram from './assets/블록체인기반사용자개인키관리구성.png'
 import {
+  aiGateway,
   aiService,
+  bigdataService,
+  blockchainService,
+  certifications,
   clients,
   companyInfo,
   history,
   paradiseCase,
   portfolio,
+  ransomDefense,
+  securityService,
+  softFilter,
   stats,
 } from './data/company'
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
-  })
   const [modalImage, setModalImage] = useState<{ src: string; alt: string } | null>(null)
 
   useEffect(() => {
@@ -38,32 +44,24 @@ function App() {
     setIsMenuOpen(false)
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    const { name, email, phone, message } = formData
-    const subject = encodeURIComponent(`[홈페이지 문의] ${name}님의 문의`)
-    const body = encodeURIComponent(
-      `회사/성함: ${name}\n` +
-      `이메일: ${email}\n` +
-      `연락처: ${phone || '미입력'}\n\n` +
-      `문의 내용:\n${message}`
-    )
-    window.location.href = `mailto:jinchai0407@daum.net?subject=${subject}&body=${body}`
-  }
+  /*
+    모달이 열려 있는 동안 배경 스크롤을 막는다.
+    body 스타일 변경을 핸들러에서 직접 하면 react-hooks/immutability 규칙에 걸리므로
+    (컴포넌트 밖 값의 변경) 반드시 이 이펙트 안에서만 건드릴 것.
+  */
+  useEffect(() => {
+    document.body.style.overflow = modalImage ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [modalImage])
 
   const openImageModal = (src: string, alt: string) => {
     setModalImage({ src, alt })
-    document.body.style.overflow = 'hidden'
   }
 
   const closeImageModal = () => {
     setModalImage(null)
-    document.body.style.overflow = ''
   }
 
   return (
@@ -91,7 +89,6 @@ function App() {
             <li onClick={() => scrollToSection('case-paradise')}>고객사례</li>
             <li onClick={() => scrollToSection('history')}>연혁</li>
             <li onClick={() => scrollToSection('portfolio')}>사업실적</li>
-            <li onClick={() => scrollToSection('contact')}>문의하기</li>
           </ul>
         </div>
       </nav>
@@ -116,9 +113,6 @@ function App() {
           <div className="hero__buttons">
             <button className="btn btn--primary" onClick={() => scrollToSection('services')}>
               서비스 알아보기
-            </button>
-            <button className="btn btn--secondary" onClick={() => scrollToSection('contact')}>
-              문의하기
             </button>
           </div>
         </div>
@@ -152,75 +146,53 @@ function App() {
               </div>
             </div>
 
-            <div className="about__right">
-              <div className="about__info-list">
-                <div className="about__info-item">
-                  <div className="about__info-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16m14 0H5m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5m-4 0h4"/>
-                    </svg>
-                  </div>
-                  <div className="about__info-content">
-                    <span className="about__info-label">법인명</span>
-                    <span className="about__info-value">{companyInfo.name}</span>
-                  </div>
-                </div>
+          </div>
+        </div>
+      </section>
 
-                <div className="about__info-item">
-                  <div className="about__info-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                      <circle cx="12" cy="7" r="4"/>
-                    </svg>
-                  </div>
-                  <div className="about__info-content">
-                    <span className="about__info-label">대표이사</span>
-                    <span className="about__info-value">{companyInfo.ceo}</span>
-                  </div>
-                </div>
+      {/*
+        대외 인증 (소개서 v1.11 slide4).
 
-                <div className="about__info-item">
-                  <div className="about__info-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                      <line x1="16" y1="2" x2="16" y2="6"/>
-                      <line x1="8" y1="2" x2="8" y2="6"/>
-                      <line x1="3" y1="10" x2="21" y2="10"/>
-                    </svg>
-                  </div>
-                  <div className="about__info-content">
-                    <span className="about__info-label">설립일자</span>
-                    <span className="about__info-value">{companyInfo.founded}</span>
-                  </div>
-                </div>
+        조회번호(기업부설연구소 공서번호 / 벤처기업확인서 발급번호) 노출을 막기 위한 장치가 세 겹이다 -
+        이 중 아무거나 하나만 풀어도 번호가 읽히니 같이 유지할 것 (2026-09-18):
+          1. 220px 안팎의 고정 표시 크기 (아래 .cert 의 width)
+          2. 클릭 확대 없음 (카드 안 주석 참고)
+          3. src/assets 의 두 이미지는 GaussianBlur(0.45) + JPEG q82 로 살짝 눌러 저장한 버전
+        한때 번호를 회색 박스로 가렸으나 사용자 판단으로 마스킹은 걷어냈고, 위 세 겹이 그 역할을 대신한다.
+        소개서 pptx에서 이미지를 새로 뽑으면 3번 처리가 사라지니(확장자도 png로 돌아간다)
+        교체할 때 같은 변환을 다시 걸 것. 원본은 docs/ 의 pptx 안에 그대로 있다.
+      */}
+      <section id="certifications" className="certifications">
+        <div className="container">
+          <div className="section-header">
+            <span className="section-label">CERTIFICATION</span>
+            <h2 className="section-title">대외 인증</h2>
+            <p className="section-desc">기술력과 성장성을 공인기관으로부터 인정받았습니다</p>
+          </div>
 
-                <div className="about__info-item">
-                  <div className="about__info-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                      <circle cx="12" cy="10" r="3"/>
-                    </svg>
+          <div className="certifications__list">
+            {certifications.map((cert, i) => {
+              const img = i === 0 ? ventureCert : researchCert
+              return (
+                <article className="cert" key={cert.name}>
+                  {/*
+                    인증서는 클릭 확대를 일부러 붙이지 않는다 (2026-09-18).
+                    국내 기업 인증현황 페이지(신라시스템 222x310, 베스타텍 218x300)도 모두
+                    이 크기에서 끝내고 확대를 제공하지 않는다 - 확대하면 발급번호 / 공서번호가
+                    판독 가능해지기 때문이다. 다른 섹션 이미지처럼 모달을 달지 말 것.
+                  */}
+                  <div className="cert__thumb">
+                    <img src={img} alt={cert.name} />
                   </div>
-                  <div className="about__info-content">
-                    <span className="about__info-label">주소</span>
-                    <span className="about__info-value">{companyInfo.address}<br />{companyInfo.addressDetail}</span>
+                  <div className="cert__body">
+                    <h3>{cert.name}</h3>
+                    <p className="cert__issuer">{cert.issuer}</p>
+                    <p className="cert__detail">{cert.detail}</p>
+                    <span className="cert__date">{cert.date}</span>
                   </div>
-                </div>
-
-                <div className="about__info-item">
-                  <div className="about__info-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <circle cx="12" cy="12" r="10"/>
-                      <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                    </svg>
-                  </div>
-                  <div className="about__info-content">
-                    <span className="about__info-label">웹사이트</span>
-                    <span className="about__info-value">{companyInfo.website}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+                </article>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -280,11 +252,16 @@ function App() {
                 블록체인 기술을 활용한 안전하고 투명한 서비스를 개발합니다.
                 데이터 보안과 사용자 인증의 새로운 패러다임을 제시합니다.
               </p>
+              {/*
+                2026-09-18 소개서 v1.11 기준으로 교체. DB보안(PrivacyDB) / DB접근제어(ChakraMax)
+                공급 2줄은 v1.11 사업분야 슬라이드에서 빠져 여기서도 제거했다. 없어진 사업이 아니라
+                회사 정보(companyInfo.businessAreas)의 사업 분야 목록에 그대로 남아 있으니
+                누락으로 보고 이 목록에 되돌려 넣지 말 것.
+              */}
               <ul className="service-section__list">
                 <li>블록체인 기반 서비스 개발</li>
-                <li>데이터 암호화 및 보안 서비스</li>
-                <li>DB보안 솔루션 (PrivacyDB) 공급</li>
-                <li>DB접근제어 솔루션 (ChakraMax) 공급</li>
+                <li>데이터 암호화 및 보안 서비스 개발</li>
+                <li>사용자 인증 · 개인키 관리 (HSM)</li>
               </ul>
             </div>
             <div className="service-section__visual">
@@ -322,6 +299,29 @@ function App() {
               </div>
             </div>
           </div>
+
+          {/* 소개서 v1.11 slide9 - 다이어그램만으로는 전달되지 않는 인증 흐름 / 키 보안 항목 */}
+          <div className="bc-detail">
+            <div className="bc-detail__col">
+              <h4>사용자 인증 흐름</h4>
+              <ol className="bc-detail__flow">
+                {blockchainService.authFlow.map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
+              </ol>
+            </div>
+            <div className="bc-detail__col">
+              <h4>개인키 보안 (HSM)</h4>
+              <ul className="bc-detail__points">
+                {blockchainService.keySecurity.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <p className="bc-detail__tech">
+            <strong>자체 보유 기술</strong> {blockchainService.ownTech}
+          </p>
         </div>
       </section>
 
@@ -349,23 +349,239 @@ function App() {
                 ))}
               </ul>
             </div>
+            {/*
+              AI 보안 게이트웨이 구성도 (소개서 v1.11 slide8).
+              소개서에서는 파워포인트 도형이라 내려받을 이미지가 없어 HTML/CSS로 다시 그렸다.
+              이전에 쓰던 인공지능2.png 는 v1.11에 없는 구버전(멀티에이전트 / RAG) 그림이라 걷어냈다 -
+              "구성도가 사라졌다"고 판단해 되돌리지 말 것.
+            */}
             <div className="service-section__visual">
-              <div className="service-section__diagram service-section__diagram--single">
-                <h4>AI 서비스 구성</h4>
-                <div
-                  className="service-section__diagram-img service-section__diagram-img--clickable"
-                  onClick={() => openImageModal(aiServiceDiagram, '인공지능 서비스 구성도')}
-                >
-                  <img src={aiServiceDiagram} alt="인공지능 서비스 구성도" />
-                  <div className="service-section__diagram-zoom">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <circle cx="11" cy="11" r="8"/>
-                      <path d="m21 21-4.35-4.35M11 8v6M8 11h6"/>
-                    </svg>
-                  </div>
+              <div className="ai-gateway">
+                <h4 className="ai-gateway__title">AI 보안 솔루션 구성</h4>
+
+                <div className="ai-gateway__node">
+                  <span className="ai-gateway__node-title">{aiGateway.client.title}</span>
+                  <span className="ai-gateway__node-detail">{aiGateway.client.detail}</span>
+                </div>
+
+                <span className="ai-gateway__link">HTTPS</span>
+
+                <div className="ai-gateway__core">
+                  <span className="ai-gateway__core-title">AI 보안 게이트웨이</span>
+                  <ol className="ai-gateway__steps">
+                    {aiGateway.steps.map((step) => (
+                      <li key={step.no}>
+                        <span className="ai-gateway__step-no">{step.no}</span>
+                        {step.title}
+                      </li>
+                    ))}
+                  </ol>
+                  <p className="ai-gateway__note">※ {aiGateway.note}</p>
+                </div>
+
+                <span className="ai-gateway__link">고정 IP</span>
+
+                <div className="ai-gateway__node">
+                  <span className="ai-gateway__node-title">{aiGateway.provider.title}</span>
+                  <span className="ai-gateway__node-detail">{aiGateway.provider.detail}</span>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Service 4: 보안솔루션 개발 (소개서 v1.11에서 신설된 네 번째 사업분야) */}
+      <section id="service-security" className="service-section service-section--light">
+        <div className="container">
+          <div className="service-section__content">
+            <div className="service-section__info">
+              <div className="service-section__number">04</div>
+              <div className="service-section__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5l8-3z"/>
+                  <path d="M9 12l2 2 4-4"/>
+                </svg>
+              </div>
+              <h3 className="service-section__title">보안솔루션 개발</h3>
+              <p className="service-section__desc">
+                화이트리스트 기반으로 인증되지 않은 소프트웨어를 원천 차단합니다.
+                신종 · 변종 랜섬웨어까지 행위 기반으로 대응하는 자체 솔루션을 개발합니다.
+              </p>
+              <ul className="service-section__list">
+                {securityService.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 보안솔루션 상세 1: 랜섬디펜스 (소개서 v1.11 slide6) */}
+      <section id="ransom-defense" className="solution solution--dark">
+        <div className="container">
+          <div className="solution__head">
+            <div className="solution__brand">
+              <img src={ransomDefenseImg} alt="랜섬디펜스 로고" />
+            </div>
+            <div className="solution__intro">
+              <span className="section-label">SECURITY SOLUTION</span>
+              <h2 className="solution__title">
+                {ransomDefense.nameKo}
+                <span className="solution__title-en">({ransomDefense.name})</span>
+              </h2>
+              <p className="solution__summary">{ransomDefense.summary}</p>
+            </div>
+          </div>
+
+          <h3 className="solution__subtitle">주요 기능</h3>
+          <div className="solution__features">
+            {ransomDefense.features.map((feature) => (
+              <article className="solution__feature" key={feature.no}>
+                <span className="solution__feature-no">{feature.no}</span>
+                <h4>{feature.title}</h4>
+                <ul>
+                  {feature.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+
+          <h3 className="solution__subtitle">백신과 비교</h3>
+          <div className="solution__table-wrap">
+            <table className="solution__table">
+              <thead>
+                <tr>
+                  {ransomDefense.compare.headers.map((header) => (
+                    <th key={header}>{header}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {ransomDefense.compare.rows.map((row) => (
+                  <tr key={row[0]}>
+                    {row.map((cell, i) => (
+                      <td key={`${row[0]}-${i}`} className={i === 2 ? 'solution__table-own' : ''}>
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* 보안솔루션 상세 2: 소프트필터 (소개서 v1.11 slide7) */}
+      <section id="soft-filter" className="solution">
+        <div className="container">
+          <div className="solution__head">
+            <div
+              className="solution__shot service-section__diagram-img--clickable"
+              onClick={() => openImageModal(softFilterImg, '소프트필터 관리 화면')}
+            >
+              <img src={softFilterImg} alt="소프트필터 관리 화면" />
+              <div className="service-section__diagram-zoom">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="m21 21-4.35-4.35M11 8v6M8 11h6"/>
+                </svg>
+              </div>
+            </div>
+            <div className="solution__intro">
+              <span className="section-label">SECURITY SOLUTION</span>
+              <h2 className="solution__title">
+                {softFilter.nameKo}
+                <span className="solution__title-en">({softFilter.name})</span>
+              </h2>
+              <p className="solution__summary">{softFilter.summary}</p>
+              <p className="solution__note">※ {softFilter.note}</p>
+            </div>
+          </div>
+
+          <h3 className="solution__subtitle">분석 방식</h3>
+          <div className="solution__features">
+            {softFilter.features.map((feature) => (
+              <article className="solution__feature" key={feature.no}>
+                <span className="solution__feature-no">{feature.no}</span>
+                <h4>{feature.title}</h4>
+                <ul>
+                  {feature.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+
+          <h3 className="solution__subtitle">일반 화이트리스트와 비교</h3>
+          <div className="solution__table-wrap">
+            <table className="solution__table">
+              <thead>
+                <tr>
+                  {softFilter.compare.headers.map((header) => (
+                    <th key={header}>{header}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {softFilter.compare.rows.map((row) => (
+                  <tr key={row[0]}>
+                    {row.map((cell, i) => (
+                      <td key={`${row[0]}-${i}`} className={i === 2 ? 'solution__table-own' : ''}>
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* 빅데이터 기반 시각화 서비스 (소개서 v1.11 slide10) */}
+      <section id="bigdata" className="bigdata">
+        <div className="container">
+          <div className="section-header">
+            <span className="section-label">BIG DATA</span>
+            <h2 className="section-title">빅데이터 기반 시각화</h2>
+            <p className="section-desc">{bigdataService.summary}</p>
+          </div>
+
+          <div className="bigdata__grid">
+            {bigdataService.cases.map((item, i) => (
+              <article className="bigdata__card" key={item.title}>
+                {i < 2 && (
+                  <div
+                    className="bigdata__img service-section__diagram-img--clickable"
+                    onClick={() => openImageModal(i === 0 ? trafficImg : chargerImg, item.title)}
+                  >
+                    <img src={i === 0 ? trafficImg : chargerImg} alt={item.title} />
+                    <div className="service-section__diagram-zoom">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35M11 8v6M8 11h6"/>
+                      </svg>
+                    </div>
+                  </div>
+                )}
+                {i === 2 && (
+                  <div className="bigdata__stat">
+                    <strong>185~315기</strong>
+                    <span>권역별 충전기 규모</span>
+                    <strong>120~360억</strong>
+                    <span>추정 수익성</span>
+                  </div>
+                )}
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
@@ -482,91 +698,118 @@ function App() {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="contact">
+      {/*
+        회사 정보(법인명/대표/주소 등) 블록 - 2026-09-15 About 섹션 우측에서 페이지 하단으로 이동.
+        모바일에서 About 섹션이 1단으로 접히면 이 표가 히어로 직후에 길게 노출돼
+        회사 소개보다 먼저 읽히는 문제가 있어 푸터 바로 위로 내렸다.
+        클래스는 기존 .about__info-* 를 그대로 재사용한다(스타일 중복 방지) - 이름만 보고
+        About 섹션 전용이라 판단해 옮기거나 지우지 말 것.
+      */}
+      <section id="company-info" className="company-info">
         <div className="container">
-          <div className="section-header section-header--light">
-            <span className="section-label">CONTACT</span>
-            <h2 className="section-title">문의하기</h2>
+          <div className="section-header">
+            <span className="section-label">COMPANY</span>
+            <h2 className="section-title">회사 정보</h2>
           </div>
+          <div className="company-info__card">
+            <div className="about__info-list">
+              <div className="about__info-item">
+                <div className="about__info-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16m14 0H5m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5m-4 0h4"/>
+                  </svg>
+                </div>
+                <div className="about__info-content">
+                  <span className="about__info-label">법인명</span>
+                  <span className="about__info-value">{companyInfo.name}</span>
+                </div>
+              </div>
 
-          <div className="contact__content">
-            <div className="contact__info">
-              <h3>함께 성장할 파트너를<br />기다립니다</h3>
-              <p>프로젝트 문의, 제휴 제안 등<br />어떤 문의든 환영합니다</p>
+              <div className="about__info-item">
+                <div className="about__info-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                </div>
+                <div className="about__info-content">
+                  <span className="about__info-label">대표이사</span>
+                  <span className="about__info-value">{companyInfo.ceo}</span>
+                </div>
+              </div>
 
-              <div className="contact__details">
-                <div className="contact__detail">
+              <div className="about__info-item">
+                <div className="about__info-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                </div>
+                <div className="about__info-content">
+                  <span className="about__info-label">설립일자</span>
+                  <span className="about__info-value">{companyInfo.founded}</span>
+                </div>
+              </div>
+
+              <div className="about__info-item">
+                <div className="about__info-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                     <circle cx="12" cy="10" r="3"/>
                   </svg>
-                  <div>
-                    <strong>주소</strong>
-                    <p>{companyInfo.address}<br />{companyInfo.addressDetail}</p>
-                  </div>
                 </div>
+                <div className="about__info-content">
+                  <span className="about__info-label">주소</span>
+                  <span className="about__info-value">{companyInfo.address}<br />{companyInfo.addressDetail}</span>
+                </div>
+              </div>
 
-                <div className="contact__detail">
+              <div className="about__info-item about__info-item--wide">
+                <div className="about__info-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="3" width="7" height="7" rx="1"/>
+                    <rect x="14" y="3" width="7" height="7" rx="1"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1"/>
+                  </svg>
+                </div>
+                <div className="about__info-content">
+                  <span className="about__info-label">사업 분야</span>
+                  <ul className="about__info-values">
+                    {companyInfo.businessAreas.map((area) => (
+                      <li key={area}>{area}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="about__info-item">
+                <div className="about__info-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <circle cx="12" cy="12" r="10"/>
                     <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
                   </svg>
-                  <div>
-                    <strong>웹사이트</strong>
-                    <p>{companyInfo.website}</p>
-                  </div>
+                </div>
+                <div className="about__info-content">
+                  <span className="about__info-label">웹사이트</span>
+                  <span className="about__info-value">{companyInfo.website}</span>
                 </div>
               </div>
             </div>
-
-            <form className="contact__form" onSubmit={handleSubmit}>
-              <div className="form-group">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="회사/성함"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="이메일"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="연락처"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-group">
-                <textarea
-                  name="message"
-                  placeholder="문의 내용을 입력해주세요"
-                  rows={5}
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  required
-                ></textarea>
-              </div>
-              <button type="submit" className="btn btn--primary btn--full">
-                문의하기
-              </button>
-            </form>
           </div>
         </div>
       </section>
+
+      {/*
+        문의하기(Contact) 섹션 제거 - 2026-09-15
+        메일 폼(mailto 전송)과 연락처 블록을 통째로 삭제했다. 되살리지 말 것:
+        주소/웹사이트는 바로 위 .company-info 섹션에 이미 노출되므로 중복이었고,
+        폼은 mailto 링크 방식이라 실제 문의 접수 경로로 쓰이지 않았다.
+        관련 nav/footer 링크와 hero의 '문의하기' 버튼, formData state/handleSubmit,
+        App.css의 .contact* / .form-group* 규칙도 함께 제거됨.
+      */}
 
       {/* Image Modal */}
       {modalImage && (
@@ -607,8 +850,7 @@ function App() {
                   <li onClick={() => scrollToSection('services')}>사업분야</li>
                   <li onClick={() => scrollToSection('case-paradise')}>고객사례</li>
                   <li onClick={() => scrollToSection('portfolio')}>사업실적</li>
-                  <li onClick={() => scrollToSection('contact')}>문의하기</li>
-                </ul>
+                      </ul>
               </div>
               <div className="footer__column">
                 <h4>사업분야</h4>
@@ -616,6 +858,8 @@ function App() {
                   <li onClick={() => scrollToSection('service-si')}>시스템 통합</li>
                   <li onClick={() => scrollToSection('service-blockchain')}>블록체인 & 보안</li>
                   <li onClick={() => scrollToSection('service-ai')}>인공지능</li>
+                  <li onClick={() => scrollToSection('service-security')}>보안솔루션</li>
+                  <li onClick={() => scrollToSection('bigdata')}>빅데이터 시각화</li>
                 </ul>
               </div>
             </div>
