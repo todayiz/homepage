@@ -226,13 +226,9 @@ export const certifications = [
   소개서가 갱신되면 이미지가 아니라 이 데이터와 .ai-gateway 마크업을 고쳐야 한다.
 */
 export const aiGateway = {
-  steps: [
-    { no: '1', title: '한국어 정규화' },
-    { no: '2', title: '민감정보 4계층 탐지' },
-    { no: '3', title: '정책 평가 (허용~차단)' },
-    { no: '4', title: '세션 왕복 토큰화' },
-    { no: '5', title: '출력 검사 (응답 재검사)' },
-  ],
+  // 2026-09-22: 게이트웨이 내부 5단계 처리 흐름(steps) 데이터를 제거했다.
+  // 대외 공개 자료에 내부 동작이 너무 상세하다는 판단이라, 소개서 slide8 에
+  // 남아 있다는 이유만으로 되살리지 말 것. 마크업도 App.tsx 에서 함께 빠져 있다.
   note: '원문 미보관 · 관리자 원문 열람 불가',
   client: { title: '사용자', detail: '웹 브라우저 (React SPA)' },
   provider: { title: 'LLM 공급자', detail: 'OpenAI · Claude · Gemini (고객사 소유 API 키)' },

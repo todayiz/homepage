@@ -1423,43 +1423,16 @@
   font-weight: 700;
   color: var(--white);
   text-align: center;
-  margin-bottom: 18px;
 }
 
-.ai-gateway__steps {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.ai-gateway__steps li {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(15, 23, 42, 0.45);
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-size: 0.875rem;
-  color: var(--white);
-}
-
-.ai-gateway__step-no {
-  flex-shrink: 0;
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
-  background: var(--primary);
-  color: var(--white);
-  font-size: 0.75rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
+/*
+  2026-09-22: 게이트웨이 내부 5단계 목록을 마크업에서 걷어내면서
+  .ai-gateway__steps / .ai-gateway__steps li / .ai-gateway__step-no 규칙도 같이 지웠다.
+  이제 코어 박스에는 제목과 주의문구만 남아서 note 여백을 줄여 놓았다 -
+  목록을 다시 넣을 일이 생기면 이 여백(과 core-title 의 margin-bottom)부터 원복해야 한다.
+*/
 .ai-gateway__note {
-  margin-top: 16px;
+  margin-top: 10px;
   text-align: center;
   font-size: 0.8125rem;
   color: var(--gray-300);

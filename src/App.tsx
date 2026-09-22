@@ -366,16 +366,15 @@ function App() {
 
                 <span className="ai-gateway__link">HTTPS</span>
 
+                {/*
+                  2026-09-22: 게이트웨이 내부 5단계(한국어 정규화 / 민감정보 4계층 탐지 /
+                  정책 평가 / 세션 왕복 토큰화 / 출력 검사) 목록을 뺐다.
+                  대외 공개 자료에 내부 처리 흐름이 지나치게 상세하다는 판단 - 되살리지 말 것.
+                  함께 걷어낸 것: company.ts 의 aiGateway.steps,
+                  App.css 의 .ai-gateway__steps / .ai-gateway__step-no 규칙.
+                */}
                 <div className="ai-gateway__core">
                   <span className="ai-gateway__core-title">AI 보안 게이트웨이</span>
-                  <ol className="ai-gateway__steps">
-                    {aiGateway.steps.map((step) => (
-                      <li key={step.no}>
-                        <span className="ai-gateway__step-no">{step.no}</span>
-                        {step.title}
-                      </li>
-                    ))}
-                  </ol>
                   <p className="ai-gateway__note">※ {aiGateway.note}</p>
                 </div>
 
