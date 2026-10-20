@@ -82,12 +82,14 @@ export default function SafepromPage() {
               <img src={logo} alt="세이프롬 Safeprom 로고" className="sp-hero__logo" />
               <h1 className="sp-hero__tagline">{safepromHero.tagline}</h1>
               <p className="sp-hero__summary">{safepromHero.summary}</p>
+              {/*
+                버튼이 하나뿐인 건 의도다. 예전에 있던 '동작 방식 보기'는
+                가리키던 #sp-flow 섹션(게이트웨이 처리 흐름)을 걷어내면서 죽은 링크가 돼 제거했다.
+                되살리려면 대상 섹션부터 만들 것.
+              */}
               <div className="sp-hero__actions">
-                <a className="btn btn--primary" href="#sp-rollout">
-                  도입 안내 보기
-                </a>
-                <a className="btn btn--secondary" href="#sp-flow">
-                  동작 방식 보기
+                <a className="btn btn--primary" href="#sp-contact">
+                  도입 문의하기
                 </a>
               </div>
             </div>
@@ -421,17 +423,14 @@ export default function SafepromPage() {
           <div className="container">
             <header className="sp-section__head">
               <span className="sp-eyebrow">도입 안내</span>
-              <h2>서비스 형태와 도입 절차</h2>
+              <h2>문의부터 전사 도입까지</h2>
             </header>
 
-            <dl className="sp-facts">
-              {safepromRollout.facts.map((fact) => (
-                <div key={fact.label} className="sp-fact">
-                  <dt>{fact.label}</dt>
-                  <dd>{fact.value}</dd>
-                </div>
-              ))}
-            </dl>
+            {/*
+              2026-10-20: 서비스 형태 · 지원 AI · 대상 · 지원 파일 · AI 사용료를 나열하던
+              사실표(sp-facts)를 뺐다. 같은 내용이 위쪽 기능 카드와 기본값 표에 이미 나와 있어
+              같은 말을 세 번 하는 꼴이었다. 절차만 남겨 흐름이 끊기지 않게 했다.
+            */}
 
             <div className="sp-steps">
               <h3 className="sp-table-title">도입 절차</h3>

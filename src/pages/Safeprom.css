@@ -23,7 +23,6 @@
 .sp-guard ul li,
 .sp-baseline,
 .sp-tour__copy p,
-.sp-fact dd,
 .sp-steps__list li span,
 .sp-setup li span,
 .sp-faq__item p,
@@ -806,33 +805,10 @@
 /* ===================================
    도입 안내
 =================================== */
-.sp-facts {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-bottom: 72px;
-}
-
-.sp-fact {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 14px;
-  padding: 24px;
-}
-
-.sp-fact dt {
-  font-size: 0.8125rem;
-  font-weight: 700;
-  color: var(--primary-light);
-  margin-bottom: 10px;
-}
-
-.sp-fact dd {
-  font-size: 0.9375rem;
-  line-height: 1.7;
-  color: var(--white);
-}
-
+/*
+  2026-10-20: .sp-facts / .sp-fact 규칙을 지웠다.
+  도입 안내의 사실표를 걷어내면서 쓰는 곳이 없어졌다 - 되살리려면 마크업부터 볼 것.
+*/
 .sp-steps {
   max-width: 980px;
   margin: 0 auto 64px;
@@ -1165,7 +1141,6 @@
   }
 
   .sp-promises__grid,
-  .sp-facts,
   .sp-steps__list {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1189,7 +1164,6 @@
   .sp-feature-grid,
   .sp-guard-grid,
   .sp-principles,
-  .sp-facts,
   .sp-steps__list,
   .sp-setup {
     grid-template-columns: 1fr;
