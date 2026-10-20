@@ -309,7 +309,6 @@ export default function SafepromPage() {
             <header className="sp-section__head">
               <span className="sp-eyebrow">{safepromContact.label}</span>
               <h2>도입을 검토 중이시라면</h2>
-              <p>온라인 데모로 실제 화면을 먼저 보여 드립니다.</p>
             </header>
 
             <div className="sp-contact-wrap">
