@@ -23,7 +23,6 @@ import {
   safepromScreensNotice,
   safepromShowcase,
   safepromSecurity,
-  safepromStatus,
 } from '../data/safeprom'
 
 /*
@@ -336,7 +335,6 @@ export default function SafepromPage() {
               </ol>
             </div>
 
-            <p className="sp-disclaimer">※ {safepromStatus.note}</p>
           </div>
         </section>
 

@@ -16,7 +16,18 @@
 .sp-hero__summary,
 .sp-section__head p,
 .sp-faq__item p,
+/*
+  제품 화면 아래 붙는 가상 정보 고지.
+  2026-10-20: 투어 CSS 교체 때 본문 스타일이 함께 지워졌던 것을 복구했다.
+  눈에 띄되 본문을 가리지 않는 톤으로 둔다 - 지우지 말 것(근거는 data/safeprom.ts 주석).
+*/
 .sp-disclaimer {
+  max-width: 880px;
+  margin: 32px auto 0;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--gray-500);
   word-break: keep-all;
 }
 
