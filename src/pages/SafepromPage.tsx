@@ -14,7 +14,6 @@ import credentialBlockImg from '../assets/세이프롬인증정보차단.jpg'
 import {
   safepromContact,
   safepromFaq,
-  safepromFeatureBaseline,
   safepromFeatures,
   safepromPrinciples,
   safepromHero,
@@ -113,7 +112,6 @@ export default function SafepromPage() {
               {safepromPromises.map((promise) => (
                 <div key={promise.title} className="sp-promise">
                   <h3>{promise.title}</h3>
-                  <p>{promise.detail}</p>
                 </div>
               ))}
             </div>
@@ -134,7 +132,6 @@ export default function SafepromPage() {
                 <div key={item.no} className="sp-problem">
                   <span className="sp-problem__no">{item.no}</span>
                   <h3>{item.title}</h3>
-                  <p>{item.detail}</p>
                 </div>
               ))}
             </div>
@@ -204,16 +201,12 @@ export default function SafepromPage() {
                           {feature.no}
                         </span>
                         <h4>{feature.title}</h4>
-                        <p>{feature.detail}</p>
                       </article>
                     ))}
                 </div>
               </div>
             ))}
 
-            <p className="sp-baseline">
-              <strong>모든 기능의 기본</strong> {safepromFeatureBaseline}
-            </p>
           </div>
         </section>
 
@@ -231,11 +224,6 @@ export default function SafepromPage() {
                 <div key={guard.no} className="sp-guard">
                   <span className="sp-guard__no">{guard.no}</span>
                   <h3>{guard.title}</h3>
-                  <ul>
-                    {guard.points.map((point) => (
-                      <li key={point}>{point}</li>
-                    ))}
-                  </ul>
                 </div>
               ))}
             </div>
@@ -267,7 +255,6 @@ export default function SafepromPage() {
                   <div className="sp-tour__copy">
                     <span className="sp-tour__eyebrow">{item.eyebrow}</span>
                     <h3>{item.headline}</h3>
-                    <p>{item.detail}</p>
                   </div>
                   <figure className="sp-tour__shot">
                     <img
@@ -307,7 +294,6 @@ export default function SafepromPage() {
                 <div key={item.no} className="sp-principle">
                   <span className="sp-principle__no">{item.no}</span>
                   <h3>{item.title}</h3>
-                  <p>{item.detail}</p>
                 </div>
               ))}
             </div>
@@ -341,7 +327,6 @@ export default function SafepromPage() {
                   <li key={step.no}>
                     <span className="sp-steps__no">{step.no}</span>
                     <strong>{step.title}</strong>
-                    <span>{step.detail}</span>
                   </li>
                 ))}
               </ol>

@@ -14,13 +14,7 @@
   표 셀은 제외했다 - 좁은 화면에서 셀이 안 줄어들어 표가 가로로 터진다.
 */
 .sp-hero__summary,
-.sp-promise p,
-.sp-problem p,
 .sp-section__head p,
-.sp-guard ul li,
-.sp-baseline,
-.sp-tour__copy p,
-.sp-steps__list li span,
 .sp-setup li span,
 .sp-faq__item p,
 .sp-disclaimer {
@@ -30,8 +24,12 @@
 /* ===================================
    공통 섹션 틀
 =================================== */
+/*
+  2026-10-20: 카드에서 설명을 걷어내 내용이 짧아지면서 기본 섹션 여백(120px)이
+  과하게 비어 보였다. 이 페이지만 좁혀 쓴다 - 회사소개 페이지는 그대로 둘 것.
+*/
 .sp-section {
-  padding: var(--section-padding) 0;
+  padding: 96px 0;
   background: var(--white);
 }
 
@@ -51,7 +49,7 @@
 
 .sp-section__head {
   max-width: 760px;
-  margin: 0 auto 64px;
+  margin: 0 auto 44px;
   text-align: center;
 }
 
@@ -65,7 +63,7 @@
 }
 
 .sp-section__head h2 {
-  font-size: 2.25rem;
+  font-size: 2.125rem;
   font-weight: 800;
   line-height: 1.3;
   color: var(--gray-900);
@@ -179,8 +177,12 @@
 /* ===================================
    핵심 약속 3가지
 =================================== */
+/*
+  제목만 남은 카드라 작게 두면 허전하다.
+  세 문장이 제품의 핵심 약속이므로 선언문처럼 크게 보여 준다.
+*/
 .sp-promises {
-  padding: 72px 0;
+  padding: 56px 0;
   background: var(--gray-50);
   border-bottom: 1px solid var(--gray-200);
 }
@@ -192,24 +194,24 @@
 }
 
 .sp-promise {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 108px;
+  padding: 24px 20px;
+  text-align: center;
   background: var(--white);
   border: 1px solid var(--gray-200);
   border-radius: 16px;
-  padding: 32px 28px;
   box-shadow: var(--shadow-sm);
 }
 
+/* 카드에 제목만 들어가므로 아래 여백을 두지 않는다 (2026-10-20). */
 .sp-promise h3 {
-  font-size: 1.1875rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--gray-900);
-  margin-bottom: 12px;
-}
-
-.sp-promise p {
-  font-size: 0.9375rem;
-  line-height: 1.75;
-  color: var(--gray-600);
+  word-break: keep-all;
 }
 
 /* ===================================
@@ -218,36 +220,32 @@
 .sp-problem-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  margin-bottom: 72px;
+  gap: 16px;
+  margin-bottom: 56px;
 }
 
 .sp-problem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 112px;
+  padding: 22px 22px;
   background: var(--gray-50);
   border: 1px solid var(--gray-200);
   border-radius: 14px;
-  padding: 28px 24px;
 }
 
 .sp-problem__no {
-  display: block;
   font-size: 0.875rem;
   font-weight: 800;
   color: var(--primary);
-  margin-bottom: 12px;
 }
 
 .sp-problem h3 {
   font-size: 1.0625rem;
   font-weight: 700;
   color: var(--gray-900);
-  margin-bottom: 8px;
-}
-
-.sp-problem p {
-  font-size: 0.9375rem;
-  line-height: 1.7;
-  color: var(--gray-600);
+  word-break: keep-all;
 }
 
 /* ===================================
@@ -352,7 +350,7 @@
 .sp-feature-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 14px;
 }
 
 /*
@@ -360,16 +358,23 @@
   .sp-feature__head / __example / __guard / ul 규칙을 지웠다.
   카드 안에 다시 목록을 넣지 말 것 - 사유는 data/safeprom.ts 상단 특허 주석 참고.
 */
+/*
+  번호와 제목만 들어가므로 세로로 쌓지 않고 한 줄로 붙인다.
+  세로로 두면 카드 높이에 비해 내용이 적어 빈 상자처럼 보인다.
+*/
 .sp-feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
   background: var(--white);
   border: 1px solid var(--gray-200);
-  border-radius: 16px;
-  padding: 24px 22px;
+  border-radius: 14px;
   transition: all var(--transition-normal);
 }
 
 .sp-feature:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   border-color: var(--primary-light);
   box-shadow: var(--shadow-lg);
 }
@@ -378,13 +383,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
   border-radius: 8px;
   color: var(--white);
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  margin-bottom: 14px;
 }
 
 /* 직원 · 관리자를 번호 칩 색으로 구분한다. */
@@ -396,30 +401,23 @@
   background: #0e7490;
 }
 
+/* 카드에 번호와 제목만 들어가므로 제목 아래 여백을 두지 않는다. */
 .sp-feature h4 {
   font-size: 1.0625rem;
   font-weight: 700;
   color: var(--gray-900);
-  margin-bottom: 8px;
-  word-break: keep-all;
-}
-
-.sp-feature p {
-  font-size: 0.9375rem;
-  line-height: 1.7;
-  color: var(--gray-600);
   word-break: keep-all;
 }
 
 .sp-feature-group + .sp-feature-group {
-  margin-top: 64px;
+  margin-top: 44px;
 }
 
 .sp-feature-group__title {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--gray-900);
-  margin-bottom: 24px;
+  margin-bottom: 18px;
   padding-left: 14px;
   border-left: 4px solid var(--primary);
 }
@@ -448,30 +446,31 @@
 .sp-guard-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  margin-bottom: 72px;
+  gap: 16px;
 }
 
 .sp-guard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 118px;
+  padding: 24px 22px;
   background: rgba(255, 255, 255, 0.07);
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 16px;
-  padding: 26px 22px;
 }
 
 .sp-guard__no {
-  display: block;
   font-size: 0.8125rem;
   font-weight: 800;
   color: var(--primary-light);
-  margin-bottom: 12px;
 }
 
 .sp-guard h3 {
   font-size: 1.0625rem;
   font-weight: 700;
   color: var(--white);
-  margin-bottom: 14px;
+  word-break: keep-all;
 }
 
 .sp-guard ul {
@@ -599,32 +598,26 @@
 }
 
 .sp-principle {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 112px;
+  padding: 24px 22px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 16px;
-  padding: 28px 24px;
 }
 
 .sp-principle__no {
-  display: block;
   font-size: 0.8125rem;
   font-weight: 800;
   color: var(--primary-light);
-  margin-bottom: 12px;
 }
 
 .sp-principle h3 {
   font-size: 1.0625rem;
   font-weight: 700;
   color: var(--white);
-  margin-bottom: 10px;
-  word-break: keep-all;
-}
-
-.sp-principle p {
-  font-size: 0.9375rem;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.72);
   word-break: keep-all;
 }
 
@@ -632,59 +625,41 @@
    제품 화면
 =================================== */
 /*
-  2026-10-13: 2열 썸네일 그리드(.sp-screen*)를 좌우 교차 투어로 바꿨다.
-  작은 썸네일 4장이 나란히 있으면 화면 속 글자가 안 읽혀 캡처가 제 역할을 못 했다.
-  이제 한 항목이 한 줄을 다 쓰고, 짝수 번째는 좌우를 뒤집어 단조로움을 깬다 -
-  그리드로 되돌리면 글자가 다시 안 보인다.
+  제품 화면 투어.
+
+  2026-10-20: 좌우 교차 배치를 걷어내고 2열 그리드로 바꿨다.
+  카드 설명을 빼면서 글이 제목 한 줄만 남아, 좌우로 벌려 두면
+  글 쪽 절반이 통째로 비어 보였다. 제목을 이미지 바로 위에 붙이는 편이 읽기도 낫다.
+  항목이 늘어 글이 다시 길어지면 그때 좌우 배치를 검토할 것.
 */
 .sp-tour {
-  display: flex;
-  flex-direction: column;
-  gap: 96px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .sp-tour__item {
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: 56px;
-  align-items: center;
-}
-
-/*
-  짝수 번째 항목만 이미지가 왼쪽으로 간다.
-  열 너비는 고정이라 order 만 뒤집으면 이미지가 좁은 쪽(0.85fr)으로 들어가 작아진다 -
-  템플릿도 같이 뒤집어서 이미지가 항상 넓은 열을 쓰게 할 것.
-*/
-.sp-tour__item:nth-child(even) {
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-}
-
-.sp-tour__item:nth-child(even) .sp-tour__copy {
-  order: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .sp-tour__eyebrow {
-  display: inline-block;
+  display: block;
   font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   color: var(--primary);
-  margin-bottom: 14px;
 }
 
 .sp-tour__copy h3 {
-  font-size: 1.625rem;
+  font-size: 1.3125rem;
   font-weight: 800;
   line-height: 1.4;
   color: var(--gray-900);
-  margin-bottom: 16px;
-  word-break: keep-all;
-}
-
-.sp-tour__copy p {
-  font-size: 1rem;
-  line-height: 1.85;
-  color: var(--gray-600);
+  margin-top: 8px;
   word-break: keep-all;
 }
 
@@ -697,134 +672,15 @@
   height: auto;
   display: block;
   border: 1px solid var(--gray-200);
-  border-radius: 16px;
-  box-shadow: var(--shadow-lg);
+  border-radius: 14px;
+  box-shadow: var(--shadow-md);
   cursor: zoom-in;
   transition: all var(--transition-normal);
 }
 
 .sp-tour__shot img:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-xl);
-}
-
-/*
-  가상 정보 고지 · 개발 중 안내.
-  눈에 띄되 본문을 가리지 않는 톤으로 둔다 - 지우지 말 것(근거는 data/safeprom.ts 주석).
-*/
-.sp-disclaimer {
-  max-width: 880px;
-  margin: 48px auto 0;
-  text-align: center;
-  font-size: 0.875rem;
-  line-height: 1.7;
-  color: var(--gray-500);
-}
-
-.sp-section--dark .sp-disclaimer {
-  color: rgba(255, 255, 255, 0.55);
-}
-
-/* ===================================
-   도입 안내
-=================================== */
-/*
-  2026-10-20: .sp-facts / .sp-fact 규칙을 지웠다.
-  도입 안내의 사실표를 걷어내면서 쓰는 곳이 없어졌다 - 되살리려면 마크업부터 볼 것.
-*/
-.sp-steps {
-  max-width: 980px;
-  margin: 0 auto 64px;
-}
-
-.sp-steps:last-of-type {
-  margin-bottom: 0;
-}
-
-.sp-steps__list {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.sp-steps__list li,
-.sp-setup li {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 14px;
-  padding: 24px;
-}
-
-.sp-steps__no,
-.sp-setup__no {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 9px;
-  background: var(--primary);
-  color: var(--white);
-  font-size: 0.8125rem;
-  font-weight: 700;
-  margin-bottom: 14px;
-}
-
-.sp-steps__list li strong,
-.sp-setup li strong {
-  display: block;
-  font-size: 1rem;
-  color: var(--white);
-  margin-bottom: 6px;
-}
-
-.sp-steps__list li span:not([class]),
-.sp-setup li span:not([class]) {
-  display: block;
-  font-size: 0.875rem;
-  line-height: 1.65;
-  color: var(--gray-400);
-}
-
-.sp-setup {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-
-/* ===================================
-   도입 문의 (소개서 마지막 장과 같은 한 줄)
-=================================== */
-.sp-contact {
-  margin-top: 56px;
-  text-align: center;
-  font-size: 1.0625rem;
-}
-
-.sp-contact__label {
-  color: rgba(255, 255, 255, 0.6);
-  margin-right: 10px;
-}
-
-/*
-  주소 자체가 핵심이라 링크를 또렷하게 둔다.
-  mailto 가 안 열리는 환경에서도 읽고 복사할 수 있어야 하므로
-  '메일 보내기' 같은 문구로 주소를 감추지 말 것.
-  메일 주소는 단어 단위 분리가 의미 없어 break-all 을 쓴다.
-*/
-.sp-contact__mail {
-  font-weight: 700;
-  color: var(--white);
-  word-break: break-all;
-  border-bottom: 1px solid rgba(129, 140, 248, 0.6);
-  transition: all var(--transition-fast);
-}
-
-.sp-contact__mail:hover {
-  color: var(--primary-light);
-  border-bottom-color: var(--primary-light);
 }
 
 /* ===================================
@@ -1092,23 +948,14 @@
     grid-template-columns: 1fr;
   }
 
-  /* 투어는 좁은 화면에서 문구 -> 이미지 순으로 한 줄씩 쌓는다. */
+  /* 좁은 화면에서는 한 열로 쌓는다. */
   .sp-tour {
-    gap: 64px;
-  }
-
-  .sp-tour__item,
-  .sp-tour__item:nth-child(even) {
     grid-template-columns: 1fr;
-    gap: 28px;
-  }
-
-  .sp-tour__item:nth-child(even) .sp-tour__copy {
-    order: 0;
+    gap: 40px;
   }
 
   .sp-tour__copy h3 {
-    font-size: 1.375rem;
+    font-size: 1.1875rem;
   }
 
   .sp-form__row {
