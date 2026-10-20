@@ -22,12 +22,16 @@
   눈에 띄되 본문을 가리지 않는 톤으로 둔다 - 지우지 말 것(근거는 data/safeprom.ts 주석).
 */
 .sp-disclaimer {
-  max-width: 880px;
-  margin: 32px auto 0;
-  text-align: center;
-  font-size: 0.875rem;
-  line-height: 1.7;
-  color: var(--gray-500);
+  /*
+    투어 이미지와 같은 폭에 맞춰 오른쪽에 붙인다.
+    본문이 아니라 각주 성격이라 작고 눈에 덜 띄게 둔다 - 다만 지우지는 말 것.
+  */
+  max-width: 1100px;
+  margin: 24px auto 0;
+  text-align: right;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--gray-400);
   word-break: keep-all;
 }
 
@@ -205,10 +209,11 @@
 
 .sp-promise {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  min-height: 108px;
-  padding: 24px 20px;
+  gap: 10px;
+  min-height: 132px;
+  padding: 26px 24px;
   text-align: center;
   background: var(--white);
   border: 1px solid var(--gray-200);
@@ -216,11 +221,17 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* 카드에 제목만 들어가므로 아래 여백을 두지 않는다 (2026-10-20). */
 .sp-promise h3 {
-  font-size: 1.25rem;
+  font-size: 1.1875rem;
   font-weight: 700;
   color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.sp-promise p {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--gray-600);
   word-break: keep-all;
 }
 

@@ -15,11 +15,9 @@ import {
   safepromContact,
   safepromFaq,
   safepromFeatures,
-  safepromPrinciples,
   safepromHero,
   safepromProblems,
   safepromPromises,
-  safepromRollout,
   safepromScreensNotice,
   safepromShowcase,
   safepromSecurity,
@@ -50,7 +48,7 @@ const SHOWCASE_IMAGES: Record<string, string> = {
 export default function SafepromPage() {
   const [modalImage, setModalImage] = useState<{ src: string; alt: string } | null>(null)
 
-  // /safeprom/#sp-rollout 처럼 해시를 달고 들어온 외부 링크 대응.
+  // /safeprom/#sp-contact 처럼 해시를 달고 들어온 외부 링크 대응.
   useHashScrollOnLoad()
 
   /*
@@ -111,6 +109,7 @@ export default function SafepromPage() {
               {safepromPromises.map((promise) => (
                 <div key={promise.title} className="sp-promise">
                   <h3>{promise.title}</h3>
+                  <p>{promise.detail}</p>
                 </div>
               ))}
             </div>
@@ -172,10 +171,8 @@ export default function SafepromPage() {
             <header className="sp-section__head">
               <span className="sp-eyebrow">한눈에 보기</span>
               <h2>직원이 쓰는 기능, 관리자가 쓰는 기능</h2>
-              <p>
-                회사 API 키 하나로 ChatGPT · Claude · Gemini를 쓰되, 개인정보는 가려서 보내고 관리자도
-                대화 내용은 볼 수 없는 업무용 AI 포털입니다.
-              </p>
+              {/* 처리 방식("개인정보는 가려서 보내고")을 빼고 강점만 남겼다. */}
+              <p>업무에 필요한 기능은 그대로, 보안은 회사가 정한 기준으로.</p>
             </header>
 
             {/*
@@ -278,66 +275,22 @@ export default function SafepromPage() {
         </section>
 
         {/*
-          2026-10-20 신설. 브로셔 v1.2 '06 — 원칙과 도입'.
-          기능 나열과 성격이 달라 따로 뒀다 - 기능 카드 안으로 접어 넣지 말 것.
+          2026-10-20: '원칙' 섹션을 걷어냈다.
+          머리말 '관리자도 못 봅니다'와 카드 '대화 원문은 본인만 열람'이
+          핵심 약속 · 보안 강점 섹션의 같은 메시지와 세 번 겹쳤다.
+          약속은 한 번만 말하는 편이 세다 - 되살리려면 중복부터 정리할 것.
         */}
-        <section className="sp-section sp-section--dark">
-          <div className="container">
-            <header className="sp-section__head">
-              <span className="sp-eyebrow">원칙</span>
-              <h2>{safepromPrinciples.headline}</h2>
-            </header>
-
-            <div className="sp-principles">
-              {safepromPrinciples.items.map((item) => (
-                <div key={item.no} className="sp-principle">
-                  <span className="sp-principle__no">{item.no}</span>
-                  <h3>{item.title}</h3>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/*
           2026-10-20: '위험한 기능은 처음부터 꺼져 있습니다' 기본값 표와
           보안 정책 관리자 화면 캡처를 걷어냈다.
           정책 모델과 운영 설정이 그대로 드러나서다 (특허 출원 중).
           같은 메시지는 위 원칙 섹션이 받는다 - 되살리지 말 것.
         */}
-        {/* 도입 안내 */}
-        <section id="sp-rollout" className="sp-section sp-section--dark">
-          <div className="container">
-            <header className="sp-section__head">
-              <span className="sp-eyebrow">도입 안내</span>
-              <h2>문의부터 전사 도입까지</h2>
-            </header>
-
-            {/*
-              2026-10-20: 서비스 형태 · 지원 AI · 대상 · 지원 파일 · AI 사용료를 나열하던
-              사실표(sp-facts)를 뺐다. 같은 내용이 위쪽 기능 카드와 기본값 표에 이미 나와 있어
-              같은 말을 세 번 하는 꼴이었다. 절차만 남겨 흐름이 끊기지 않게 했다.
-            */}
-
-            {/*
-              2026-10-20: '도입 절차' 소제목을 뺐다.
-              위 머리말이 이미 '도입 안내' + '문의부터 전사 도입까지' 라
-              같은 말이 세 번 겹쳤다. 이 섹션에 다른 목록이 생기면 그때 다시 붙일 것.
-            */}
-            <div className="sp-steps">
-              <ol className="sp-steps__list">
-                {safepromRollout.steps.map((step) => (
-                  <li key={step.no}>
-                    <span className="sp-steps__no">{step.no}</span>
-                    <strong>{step.title}</strong>
-                  </li>
-                ))}
-              </ol>
-            </div>
-
-          </div>
-        </section>
-
+        {/*
+          2026-10-20: '도입 안내'(문의 · 데모 -> 파일럿 -> 전사 도입) 섹션을 걷어냈다.
+          단계 이름만 남아 정보가 거의 없었고, 바로 아래 문의 폼이
+          '문의부터 시작한다'는 같은 메시지를 행동으로 보여 준다.
+        */}
         {/*
           문의 폼. 브로셔 v1.2 에서 도입 절차가 '문의 · 데모'로 시작하도록 바뀌면서
           이 섹션이 페이지의 실제 목적지가 됐다 - 아래로 더 내리거나 빼지 말 것.
@@ -352,7 +305,7 @@ export default function SafepromPage() {
             <header className="sp-section__head">
               <span className="sp-eyebrow">{safepromContact.label}</span>
               <h2>도입을 검토 중이시라면</h2>
-              <p>온라인 데모로 가림 미리보기와 관리자 화면을 먼저 보여 드립니다.</p>
+              <p>온라인 데모로 실제 화면을 먼저 보여 드립니다.</p>
             </header>
 
             <div className="sp-contact-wrap">
