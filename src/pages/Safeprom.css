@@ -168,6 +168,12 @@
 }
 
 .sp-hero__summary {
+  /*
+    왼쪽 정렬을 명시해 둔다. 히어로는 섹션 머리말(가운데 정렬)과 달리
+    제목 · 버튼과 같은 선에서 시작해야 읽는 흐름이 끊기지 않는다.
+  */
+  text-align: left;
+  max-width: 34em;
   font-size: 1.0625rem;
   line-height: 1.85;
   color: rgba(255, 255, 255, 0.8);
