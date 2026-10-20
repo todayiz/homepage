@@ -112,17 +112,11 @@
   align-items: center;
 }
 
-.sp-badge {
-  display: inline-block;
-  padding: 7px 16px;
-  border-radius: 999px;
-  background: rgba(129, 140, 248, 0.18);
-  border: 1px solid rgba(129, 140, 248, 0.5);
-  color: var(--primary-light);
-  font-size: 0.875rem;
-  font-weight: 600;
-  margin-bottom: 28px;
-}
+/*
+  2026-10-20: .sp-badge 규칙을 지웠다.
+  히어로의 '파일럿 오픈 예정' 배지를 걷어내면서 쓰는 곳이 없어졌다 -
+  날짜가 확정돼 배지를 되살릴 때 이 스타일부터 다시 만들 것.
+*/
 
 /*
   로고 원본이 밝은 배경용이라 'Safe'와 '세이프롬' 글자가 짙은 남색이다.

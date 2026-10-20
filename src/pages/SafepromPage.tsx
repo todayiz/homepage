@@ -78,7 +78,6 @@ export default function SafepromPage() {
         <section className="sp-hero">
           <div className="container sp-hero__inner">
             <div className="sp-hero__copy">
-              <span className="sp-badge">{safepromStatus.badge}</span>
               <img src={logo} alt="세이프롬 Safeprom 로고" className="sp-hero__logo" />
               <h1 className="sp-hero__tagline">{safepromHero.tagline}</h1>
               <p className="sp-hero__summary">{safepromHero.summary}</p>
