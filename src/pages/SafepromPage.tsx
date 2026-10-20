@@ -10,7 +10,7 @@ import credentialBlockImg from '../assets/세이프롬인증정보차단.jpg'
 // 'AI 연결' 캡처는 투어를 4장으로 추리면서 뺐다. 파일은 src/assets 에 남아 있다.
 // '사용량' 캡처는 화면에 환율·금액이 박혀 있어 투어에서 뺐다 (data/safeprom.ts 주석 참고).
 import securityPolicyImg from '../assets/세이프롬보안정책.png'
-import maskingPreviewImg from '../assets/세이프롬가림미리보기.png'
+// '가림 미리보기' 캡처는 동작 방식이 그대로 보여 투어에서 뺐다 (특허 출원 중).
 import {
   safepromContact,
   safepromDefaults,
@@ -46,7 +46,6 @@ import {
   masking 만 소개서 v1.1(슬라이드 8) 캡처이고 나머지는 매뉴얼 캡처다.
 */
 const SHOWCASE_IMAGES: Record<string, string> = {
-  masking: maskingPreviewImg,
   chat: chatImg,
   block: credentialBlockImg,
 }
@@ -234,7 +233,7 @@ export default function SafepromPage() {
           <div className="container">
             <header className="sp-section__head">
               <span className="sp-eyebrow">보안 기능</span>
-              <h2>보안 기능 자세히 보기</h2>
+              <h2>회사 정보는 밖으로 나가지 않습니다</h2>
               <p>{safepromSecurity.lead}</p>
             </header>
 
@@ -252,53 +251,11 @@ export default function SafepromPage() {
               ))}
             </div>
 
-            {/* 왕복 치환 예시: 글로 설명하는 것보다 입력 -> 전달 내용을 나란히 보여 주는 쪽이 빠르다. */}
-            <div className="sp-roundtrip">
-              <h3 className="sp-table-title">개인정보는 이렇게 가려서 나갑니다</h3>
-              <div className="sp-roundtrip__pair">
-                <div className="sp-roundtrip__box">
-                  <span className="sp-roundtrip__label">직원 입력</span>
-                  <p>{safepromSecurity.roundTrip.input}</p>
-                </div>
-                <span className="sp-roundtrip__arrow" aria-hidden="true">
-                  →
-                </span>
-                <div className="sp-roundtrip__box sp-roundtrip__box--masked">
-                  <span className="sp-roundtrip__label">AI에 전달되는 내용</span>
-                  <p>{safepromSecurity.roundTrip.sent}</p>
-                </div>
-              </div>
-              <p className="sp-roundtrip__note">{safepromSecurity.roundTrip.note}</p>
-            </div>
-
             {/*
-              2026-10-13: '보내기 전까지 이런 순서로 진행됩니다' 5단계 블록을 뺐다.
-              내용은 틀리지 않지만 처리 단계를 늘어놓는 모양새라 페이지가 기술 설명서처럼 읽혔고,
-              아래 제품 화면 투어의 첫 항목(가림 미리보기)이 같은 이야기를 화면으로 더 잘 보여 준다.
-              되살리려면 투어 쪽과 중복되지 않는지부터 볼 것.
+              2026-10-20: 왕복 치환 예시와 탐지 대상 · 기본 조치 표를 걷어냈다.
+              치환 전/후 문장과 분류 체계가 동작 방식을 그대로 드러내서다 (특허 출원 중).
+              사유와 원칙은 data/safeprom.ts 상단 주석 참고 - 되살리지 말 것.
             */}
-            <div className="sp-table-wrap">
-              <h3 className="sp-table-title">탐지 대상과 기본 조치</h3>
-              <table className="sp-table">
-                <thead>
-                  <tr>
-                    {safepromSecurity.detection.headers.map((header) => (
-                      <th key={header}>{header}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {safepromSecurity.detection.rows.map((row) => (
-                    <tr key={row[0]}>
-                      <th scope="row">{row[0]}</th>
-                      <td>{row[1]}</td>
-                      <td className="sp-table__highlight">{row[2]}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <p className="sp-table-note">※ {safepromSecurity.detection.note}</p>
-            </div>
           </div>
         </section>
 
