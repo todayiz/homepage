@@ -172,8 +172,11 @@ export default function SafepromPage() {
             <header className="sp-section__head">
               <span className="sp-eyebrow">한눈에 보기</span>
               <h2>직원이 쓰는 기능, 관리자가 쓰는 기능</h2>
-              {/* 처리 방식("개인정보는 가려서 보내고")을 빼고 강점만 남겼다. */}
-              <p>업무에 필요한 기능은 그대로, 보안은 회사가 정한 기준으로.</p>
+              {/*
+                섹션 리드는 한 문장으로 끝맺는다.
+                처리 방식("개인정보는 가려서 보내고")을 빼고 강점만 남겼다.
+              */}
+              <p>업무에 필요한 기능은 그대로 쓰면서 보안은 회사가 정한 기준에 맡깁니다.</p>
             </header>
 
             {/*
@@ -243,7 +246,7 @@ export default function SafepromPage() {
             <header className="sp-section__head">
               <span className="sp-eyebrow">제품 화면</span>
               <h2>직원도, 관리자도 쓰던 대로 씁니다</h2>
-              <p>설치할 프로그램은 없습니다. 브라우저만 열면 됩니다.</p>
+              <p>설치할 프로그램 없이 브라우저만 열면 됩니다.</p>
             </header>
 
             <div className="sp-tour">

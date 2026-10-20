@@ -84,10 +84,17 @@
   margin-bottom: 20px;
 }
 
+/*
+  섹션 리드는 한 문장짜리라 가운데 정렬을 명시해 둔다.
+  부모(.sp-section__head)에도 text-align: center 가 있지만,
+  나중에 부모 정렬을 바꿔도 리드는 가운데를 유지하도록 여기서도 지정한다.
+*/
 .sp-section__head p {
+  text-align: center;
   font-size: 1.0625rem;
   line-height: 1.8;
   color: var(--gray-600);
+  word-break: keep-all;
 }
 
 /* 어두운 섹션에서는 제목 · 본문 색을 뒤집는다. */
@@ -114,10 +121,14 @@
   color: var(--white);
 }
 
+/*
+  제목 '생성형 AI, 막지 말고 안전하게 쓰세요' 가 한 줄에 떨어져야 해서
+  글 쪽 열을 이미지와 같은 폭으로 넓혔다. 비율을 다시 좁히면 제목이 두 줄로 접힌다.
+*/
 .sp-hero__inner {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-  gap: 64px;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 56px;
   align-items: center;
 }
 
@@ -147,11 +158,13 @@
 .sp-hero__tagline {
   /* index.css 의 기본 제목 색이 짙은 회색이라 어두운 히어로에서는 반드시 흰색으로 덮어야 한다. */
   color: var(--white);
-  font-size: 2.5rem;
+  /* 한 줄에 떨어뜨리기 위한 크기다. 키우면 두 줄로 접힌다. */
+  font-size: 2.125rem;
   font-weight: 800;
-  line-height: 1.32;
-  letter-spacing: -0.02em;
-  margin-bottom: 24px;
+  line-height: 1.35;
+  letter-spacing: -0.03em;
+  margin-bottom: 22px;
+  word-break: keep-all;
 }
 
 .sp-hero__summary {
