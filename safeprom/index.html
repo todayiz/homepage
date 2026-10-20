@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="세이프롬(Safeprom) - 개인정보는 가리고, 관리자도 대화는 볼 수 없는 기업용 AI 보안 포털. 회사 API 키 하나로 ChatGPT · Claude · Gemini를 안전하게 씁니다."
+    />
+    <title>세이프롬 Safeprom | 기업용 AI 보안 포털 - ㈜오늘이즈</title>
+
+    <!--
+      2026-10-07: 세이프롬 제품 소개 페이지 엔트리.
+      이 파일은 SPA 라우트가 아니라 실제로 빌드되는 별도 HTML 문서다
+      (이유는 vite.config.ts 상단 주석 참고 - GitHub Pages 에서 404 를 피하려면 이래야 한다).
+
+      새 페이지를 만들 때 이 파일을 복사하고 vite.config.ts 의 input 에 등록할 것.
+      복사 후 title · description · og:url · og:title · og:description · canonical 을
+      반드시 고칠 것 - 그대로 두면 두 페이지가 같은 canonical 을 갖게 되어
+      검색엔진이 한쪽을 중복으로 버린다.
+    -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="㈜오늘이즈 (Todayiz)" />
+    <meta property="og:url" content="https://todayiz.io/safeprom/" />
+    <meta property="og:title" content="세이프롬 Safeprom | 기업용 AI 보안 포털" />
+    <meta
+      property="og:description"
+      content="프롬프트가 회사를 떠나기 전, 한 번 더 확인합니다. 개인정보는 가려서 보내고 관리자도 대화 내용은 볼 수 없는 업무용 AI 포털."
+    />
+    <meta property="og:locale" content="ko_KR" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="canonical" href="https://todayiz.io/safeprom/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/pages/safeprom-main.tsx"></script>
+  </body>
+</html>

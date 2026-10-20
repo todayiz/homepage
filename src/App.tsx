@@ -1,18 +1,15 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import logo from './assets/logo.svg'
+import { SiteFooter, SiteNav } from './components/SiteChrome'
+import { useHashScrollOnLoad } from './components/useHashScrollOnLoad'
 import researchCert from './assets/기업부설연구소인정서.jpg'
 import ventureCert from './assets/벤처기업확인서.jpg'
 import ransomDefenseImg from './assets/랜섬디펜스.png'
 import softFilterImg from './assets/소프트필터화면.png'
-import trafficImg from './assets/고속도로통행량분석.png'
-import chargerImg from './assets/휴게소충전소현황.jpg'
-import blockchainAuthDiagram from './assets/블록체인기반사용자인증서비스구성.png'
-import blockchainKeyDiagram from './assets/블록체인기반사용자개인키관리구성.png'
+// 빅데이터 섹션을 걷어내면서 통행량 · 충전소 이미지 import 도 함께 제거했다.
 import {
   aiGateway,
-  aiService,
-  bigdataService,
+  safepromService,
   blockchainService,
   certifications,
   clients,
@@ -27,21 +24,18 @@ import {
 } from './data/company'
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
   const [modalImage, setModalImage] = useState<{ src: string; alt: string } | null>(null)
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  // 제품 페이지 헤더에서 /#about 같은 링크로 넘어왔을 때 해당 섹션으로 스크롤한다.
+  useHashScrollOnLoad()
 
+  /*
+    햄버거 메뉴 열림 상태와 스크롤 감지(nav--scrolled)는 SiteChrome.tsx 의 SiteNav 가
+    자체적으로 들고 있다 - 여기에 다시 만들면 두 군데가 각자 스크롤 리스너를 달게 된다.
+    아래 scrollToSection 은 히어로의 "서비스 알아보기" 버튼 전용으로만 남겨 둔 것.
+  */
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-    setIsMenuOpen(false)
   }
 
   /*
@@ -66,32 +60,12 @@ function App() {
 
   return (
     <div className="app">
-      {/* Navigation */}
-      <nav className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
-        <div className="nav__container">
-          <div className="nav__logo" onClick={() => scrollToSection('hero')}>
-            <img src={logo} alt="오늘이즈 로고" className="nav__logo-img" />
-          </div>
-
-          <button
-            className={`nav__hamburger ${isMenuOpen ? 'active' : ''}`}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="메뉴"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-
-          <ul className={`nav__menu ${isMenuOpen ? 'nav__menu--open' : ''}`}>
-            <li onClick={() => scrollToSection('about')}>회사소개</li>
-            <li onClick={() => scrollToSection('services')}>사업분야</li>
-            <li onClick={() => scrollToSection('case-paradise')}>고객사례</li>
-            <li onClick={() => scrollToSection('history')}>연혁</li>
-            <li onClick={() => scrollToSection('portfolio')}>사업실적</li>
-          </ul>
-        </div>
-      </nav>
+      {/*
+        헤더 · 푸터는 제품 페이지(/safefrom/)와 공유한다 - src/components/SiteChrome.tsx.
+        여기에 다시 인라인으로 풀어 쓰면 두 페이지의 헤더가 갈라지므로 되돌리지 말 것.
+        isHome 은 섹션 링크를 #id(같은 문서) 로 둘지 /#id(홈으로 이동) 로 둘지를 가른다.
+      */}
+      <SiteNav isHome />
 
       {/* Hero Section */}
       <section id="hero" className="hero">
@@ -208,146 +182,40 @@ function App() {
         </div>
       </section>
 
-      {/* Service 1: 시스템 통합 */}
-      <section id="service-si" className="service-section service-section--light">
+      {/*
+        Service 1: 세이프롬.
+        2026-10-20: 기존 '인공지능 (AI)' 섹션을 제품 이름으로 바꾸고 01 자리로 끌어올렸다.
+        회사의 주력이 제품이라 사업분야 첫 칸에 둔다 - 순서를 되돌리지 말 것.
+        옆 구성도는 세이프롬의 게이트웨이 구조라 이 섹션과 원래 한 몸이었다.
+      */}
+      <section id="service-safeprom" className="service-section service-section--gradient">
         <div className="container">
           <div className="service-section__content">
             <div className="service-section__info">
               <div className="service-section__number">01</div>
               <div className="service-section__icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="2" y="3" width="20" height="14" rx="2"/>
-                  <path d="M8 21h8m-4-4v4"/>
+                  <path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/>
+                  <path d="m9.5 10.5 2.5 2-2.5 2M13.5 14.5h2.5"/>
                 </svg>
               </div>
-              <h3 className="service-section__title">시스템 통합 (SI)</h3>
+              <h3 className="service-section__title">세이프롬 (Safeprom)</h3>
               <p className="service-section__desc">
-                공공기관 및 기업의 디지털 인프라를 설계하고 구축합니다.
-                안정적인 시스템 운영과 지속적인 기술 지원을 제공합니다.
+                직원이 ChatGPT · Claude · Gemini를 회사 계정으로 안전하게 쓰는 AI 보안 포털입니다.
+                개인정보와 기밀은 보내기 전에 자동으로 가리고, 관리자도 대화 내용은 보지 못합니다.
               </p>
               <ul className="service-section__list">
-                <li>공공/기업 시스템 구축 및 유지보수</li>
-                <li>웹사이트 · 모바일 서비스 개발</li>
-                <li>SW 엔지니어링 기술지원</li>
-                <li>상용SW 공급 및 기술지원</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Service 2: 블록체인 & 보안 */}
-      <section id="service-blockchain" className="service-section service-section--dark">
-        <div className="container">
-          <div className="service-section__content service-section__content--reverse">
-            <div className="service-section__info">
-              <div className="service-section__number">02</div>
-              <div className="service-section__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
-              </div>
-              <h3 className="service-section__title">블록체인 & 보안</h3>
-              <p className="service-section__desc">
-                블록체인 기술을 활용한 안전하고 투명한 서비스를 개발합니다.
-                데이터 보안과 사용자 인증의 새로운 패러다임을 제시합니다.
-              </p>
-              {/*
-                2026-09-18 소개서 v1.11 기준으로 교체. DB보안(PrivacyDB) / DB접근제어(ChakraMax)
-                공급 2줄은 v1.11 사업분야 슬라이드에서 빠져 여기서도 제거했다. 없어진 사업이 아니라
-                회사 정보(companyInfo.businessAreas)의 사업 분야 목록에 그대로 남아 있으니
-                누락으로 보고 이 목록에 되돌려 넣지 말 것.
-              */}
-              <ul className="service-section__list">
-                <li>블록체인 기반 서비스 개발</li>
-                <li>데이터 암호화 및 보안 서비스 개발</li>
-                <li>사용자 인증 · 개인키 관리 (HSM)</li>
-              </ul>
-            </div>
-            <div className="service-section__visual">
-              <div className="service-section__diagrams">
-                <div className="service-section__diagram">
-                  <h4>사용자 인증 서비스 구성</h4>
-                  <div
-                    className="service-section__diagram-img service-section__diagram-img--clickable"
-                    onClick={() => openImageModal(blockchainAuthDiagram, '블록체인 기반 사용자 인증 서비스 구성도')}
-                  >
-                    <img src={blockchainAuthDiagram} alt="블록체인 기반 사용자 인증 서비스 구성도" />
-                    <div className="service-section__diagram-zoom">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <circle cx="11" cy="11" r="8"/>
-                        <path d="m21 21-4.35-4.35M11 8v6M8 11h6"/>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                <div className="service-section__diagram">
-                  <h4>개인키 관리 서비스 구성</h4>
-                  <div
-                    className="service-section__diagram-img service-section__diagram-img--clickable"
-                    onClick={() => openImageModal(blockchainKeyDiagram, '블록체인 기반 사용자 개인키 관리 구성도')}
-                  >
-                    <img src={blockchainKeyDiagram} alt="블록체인 기반 사용자 개인키 관리 구성도" />
-                    <div className="service-section__diagram-zoom">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <circle cx="11" cy="11" r="8"/>
-                        <path d="m21 21-4.35-4.35M11 8v6M8 11h6"/>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 소개서 v1.11 slide9 - 다이어그램만으로는 전달되지 않는 인증 흐름 / 키 보안 항목 */}
-          <div className="bc-detail">
-            <div className="bc-detail__col">
-              <h4>사용자 인증 흐름</h4>
-              <ol className="bc-detail__flow">
-                {blockchainService.authFlow.map((step) => (
-                  <li key={step}>{step}</li>
-                ))}
-              </ol>
-            </div>
-            <div className="bc-detail__col">
-              <h4>개인키 보안 (HSM)</h4>
-              <ul className="bc-detail__points">
-                {blockchainService.keySecurity.map((point) => (
-                  <li key={point}>{point}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <p className="bc-detail__tech">
-            <strong>자체 보유 기술</strong> {blockchainService.ownTech}
-          </p>
-        </div>
-      </section>
-
-      {/* Service 3: 인공지능 */}
-      <section id="service-ai" className="service-section service-section--gradient">
-        <div className="container">
-          <div className="service-section__content">
-            <div className="service-section__info">
-              <div className="service-section__number">03</div>
-              <div className="service-section__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M12 2a4 4 0 0 1 4 4c0 1.1-.9 2-2 2h-4c-1.1 0-2-.9-2-2a4 4 0 0 1 4-4z"/>
-                  <path d="M12 8v8m-4-4h8"/>
-                  <circle cx="12" cy="18" r="4"/>
-                </svg>
-              </div>
-              <h3 className="service-section__title">인공지능 (AI)</h3>
-              <p className="service-section__desc">
-                데이터 수집부터 지식화, 추론, 서비스까지 AI 파이프라인 전 과정을 설계합니다.
-                LLM 기반의 지능형 서비스로 업무 효율을 극대화합니다.
-              </p>
-              <ul className="service-section__list">
-                {aiService.items.map((item) => (
+                {safepromService.items.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
+              {/*
+                제품 소개 페이지로 넘어가는 주 경로다.
+                이 버튼을 지우면 /safeprom/ 은 헤더 메뉴에서만 닿을 수 있게 된다.
+              */}
+              <a className="btn btn--primary service-section__cta" href="/safeprom/">
+                세이프롬 자세히 보기 <span aria-hidden="true">→</span>
+              </a>
             </div>
             {/*
               AI 보안 게이트웨이 구성도 (소개서 v1.11 slide8).
@@ -390,6 +258,101 @@ function App() {
         </div>
       </section>
 
+      {/* Service 1: 시스템 통합 */}
+      <section id="service-si" className="service-section service-section--light">
+        <div className="container">
+          <div className="service-section__content">
+            <div className="service-section__info">
+              <div className="service-section__number">02</div>
+              <div className="service-section__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <rect x="2" y="3" width="20" height="14" rx="2"/>
+                  <path d="M8 21h8m-4-4v4"/>
+                </svg>
+              </div>
+              <h3 className="service-section__title">시스템 통합 (SI)</h3>
+              <p className="service-section__desc">
+                공공기관 및 기업의 디지털 인프라를 설계하고 구축합니다.
+                안정적인 시스템 운영과 지속적인 기술 지원을 제공합니다.
+              </p>
+              <ul className="service-section__list">
+                <li>공공/기업 시스템 구축 및 유지보수</li>
+                <li>웹사이트 · 모바일 서비스 개발</li>
+                <li>SW 엔지니어링 기술지원</li>
+                <li>상용SW 공급 및 기술지원</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Service 2: 블록체인 & 보안 */}
+      <section id="service-blockchain" className="service-section service-section--dark">
+        <div className="container">
+          <div className="service-section__content service-section__content--reverse">
+            <div className="service-section__info">
+              <div className="service-section__number">03</div>
+              <div className="service-section__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+              </div>
+              <h3 className="service-section__title">블록체인 & 보안</h3>
+              <p className="service-section__desc">
+                블록체인 기술을 활용한 안전하고 투명한 서비스를 개발합니다.
+                데이터 보안과 사용자 인증의 새로운 패러다임을 제시합니다.
+              </p>
+              {/*
+                2026-09-18 소개서 v1.11 기준으로 교체. DB보안(PrivacyDB) / DB접근제어(ChakraMax)
+                공급 2줄은 v1.11 사업분야 슬라이드에서 빠져 여기서도 제거했다. 없어진 사업이 아니라
+                회사 정보(companyInfo.businessAreas)의 사업 분야 목록에 그대로 남아 있으니
+                누락으로 보고 이 목록에 되돌려 넣지 말 것.
+              */}
+              <ul className="service-section__list">
+                <li>블록체인 기반 서비스 개발</li>
+                <li>데이터 암호화 및 보안 서비스 개발</li>
+                <li>사용자 인증 · 개인키 관리 (HSM)</li>
+              </ul>
+            </div>
+            {/*
+              2026-10-10: 구성도 이미지 2장(블록체인기반사용자인증서비스구성 /
+              블록체인기반사용자개인키관리구성)을 걷어냈다. 대표님 요청 -
+              파워포인트 캡처라 모바일에서 글자가 안 읽히고, 내부 구현이 과하게 드러난다.
+              "구성도가 사라졌다"고 판단해 되돌리지 말 것.
+
+              대신 아래쪽에 따로 있던 bc-detail(인증 흐름 / 개인키 보안)을 이 자리로 올렸다.
+              같은 내용을 글로 전달하면서 2단 레이아웃도 유지된다.
+              이미지 파일 자체는 src/assets 에 남아 있지만 아무 데서도 import 하지 않으므로
+              빌드 산출물에는 포함되지 않는다.
+            */}
+            <div className="service-section__visual">
+              <div className="bc-detail">
+                <div className="bc-detail__col">
+                  <h4>사용자 인증 흐름</h4>
+                  <ol className="bc-detail__flow">
+                    {blockchainService.authFlow.map((step) => (
+                      <li key={step}>{step}</li>
+                    ))}
+                  </ol>
+                </div>
+                <div className="bc-detail__col">
+                  <h4>개인키 보안 (HSM)</h4>
+                  <ul className="bc-detail__points">
+                    {blockchainService.keySecurity.map((point) => (
+                      <li key={point}>{point}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p className="bc-detail__tech">
+            <strong>자체 보유 기술</strong> {blockchainService.ownTech}
+          </p>
+        </div>
+      </section>
+
+      {/* Service 3: 인공지능 */}
       {/* Service 4: 보안솔루션 개발 (소개서 v1.11에서 신설된 네 번째 사업분야) */}
       <section id="service-security" className="service-section service-section--light">
         <div className="container">
@@ -544,47 +507,13 @@ function App() {
       </section>
 
       {/* 빅데이터 기반 시각화 서비스 (소개서 v1.11 slide10) */}
-      <section id="bigdata" className="bigdata">
-        <div className="container">
-          <div className="section-header">
-            <span className="section-label">BIG DATA</span>
-            <h2 className="section-title">빅데이터 기반 시각화</h2>
-            <p className="section-desc">{bigdataService.summary}</p>
-          </div>
-
-          <div className="bigdata__grid">
-            {bigdataService.cases.map((item, i) => (
-              <article className="bigdata__card" key={item.title}>
-                {i < 2 && (
-                  <div
-                    className="bigdata__img service-section__diagram-img--clickable"
-                    onClick={() => openImageModal(i === 0 ? trafficImg : chargerImg, item.title)}
-                  >
-                    <img src={i === 0 ? trafficImg : chargerImg} alt={item.title} />
-                    <div className="service-section__diagram-zoom">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <circle cx="11" cy="11" r="8"/>
-                        <path d="m21 21-4.35-4.35M11 8v6M8 11h6"/>
-                      </svg>
-                    </div>
-                  </div>
-                )}
-                {i === 2 && (
-                  <div className="bigdata__stat">
-                    <strong>185~315기</strong>
-                    <span>권역별 충전기 규모</span>
-                    <strong>120~360억</strong>
-                    <span>추정 수익성</span>
-                  </div>
-                )}
-                <h3>{item.title}</h3>
-                <p>{item.desc}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      {/*
+        2026-10-20: '빅데이터 기반 시각화' 섹션을 걷어냈다.
+        사업분야 네 개와 성격이 달라 흐름을 끊었고, 지금 사이트의 중심은 제품(세이프롬)이다.
+        고속도로통행량분석 · 휴게소충전소현황 이미지는 src/assets 에 남아 있지만
+        아무 데서도 import 하지 않으므로 빌드 산출물에는 포함되지 않는다.
+        되살릴 일이 생기면 bigdataService(company.ts)와 .bigdata* 스타일이 그대로 있다.
+      */}
       {/* Client Highlight: 호텔·리조트 파트너십 */}
       <section id="case-paradise" className="case">
         <div className="container">
@@ -724,31 +653,23 @@ function App() {
                 </div>
               </div>
 
+              {/*
+                2026-10-20: '대표이사'와 '설립일자' 항목을 뺐다.
+                데이터(companyInfo.ceo · founded)는 남겨 뒀으니 다시 쓸 일이 생기면 꺼내 쓸 것.
+                대신 연락 가능한 대표 이메일을 넣었다 - 회사 정보에서 실제로 쓸모 있는 건 연락처다.
+              */}
               <div className="about__info-item">
                 <div className="about__info-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <path d="m22 7-10 6L2 7"/>
                   </svg>
                 </div>
                 <div className="about__info-content">
-                  <span className="about__info-label">대표이사</span>
-                  <span className="about__info-value">{companyInfo.ceo}</span>
-                </div>
-              </div>
-
-              <div className="about__info-item">
-                <div className="about__info-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                    <line x1="16" y1="2" x2="16" y2="6"/>
-                    <line x1="8" y1="2" x2="8" y2="6"/>
-                    <line x1="3" y1="10" x2="21" y2="10"/>
-                  </svg>
-                </div>
-                <div className="about__info-content">
-                  <span className="about__info-label">설립일자</span>
-                  <span className="about__info-value">{companyInfo.founded}</span>
+                  <span className="about__info-label">이메일</span>
+                  <a className="about__info-value about__info-link" href={`mailto:${companyInfo.email}`}>
+                    {companyInfo.email}
+                  </a>
                 </div>
               </div>
 
@@ -831,44 +752,7 @@ function App() {
       )}
 
       {/* Footer */}
-      <footer className="footer">
-        <div className="container">
-          <div className="footer__content">
-            <div className="footer__brand">
-              <div className="footer__logo">
-                <img src={logo} alt="오늘이즈 로고" className="footer__logo-img" />
-              </div>
-              <p>{companyInfo.slogan}</p>
-            </div>
-
-            <div className="footer__links">
-              <div className="footer__column">
-                <h4>바로가기</h4>
-                <ul>
-                  <li onClick={() => scrollToSection('about')}>회사소개</li>
-                  <li onClick={() => scrollToSection('services')}>사업분야</li>
-                  <li onClick={() => scrollToSection('case-paradise')}>고객사례</li>
-                  <li onClick={() => scrollToSection('portfolio')}>사업실적</li>
-                      </ul>
-              </div>
-              <div className="footer__column">
-                <h4>사업분야</h4>
-                <ul>
-                  <li onClick={() => scrollToSection('service-si')}>시스템 통합</li>
-                  <li onClick={() => scrollToSection('service-blockchain')}>블록체인 & 보안</li>
-                  <li onClick={() => scrollToSection('service-ai')}>인공지능</li>
-                  <li onClick={() => scrollToSection('service-security')}>보안솔루션</li>
-                  <li onClick={() => scrollToSection('bigdata')}>빅데이터 시각화</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div className="footer__bottom">
-            <p>&copy; 2025 Todayiz. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter isHome />
     </div>
   )
 }

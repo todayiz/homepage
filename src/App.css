@@ -45,10 +45,19 @@
   opacity: 0.85;
 }
 
+/*
+  2026-10-13: 제품 메뉴가 '제품소개'(3글자) -> 마크 + '세이프롬' 으로 넓어지면서
+  항목 6개가 한 줄에 안 들어가 글자가 아래로 밀렸다. 간격을 줄이고 줄바꿈을 막는다 -
+  메뉴를 더 추가할 때 여기부터 다시 볼 것.
+*/
 .nav__menu {
   display: flex;
   align-items: center;
-  gap: 48px;
+  gap: 36px;
+}
+
+.nav__menu li {
+  white-space: nowrap;
 }
 
 .nav__menu li {
@@ -77,6 +86,41 @@
 
 .nav__menu li:hover::after {
   width: 100%;
+}
+
+/*
+  2026-10-07: 헤더 · 푸터 메뉴가 <li onClick> 에서 <li><a href> 로 바뀌었다
+  (제품 페이지가 생겨 페이지 간 이동이 필요해졌고, 키보드 포커스 · 새 탭 열기 ·
+   크롤러 링크 추적이 모두 안 되던 문제도 함께 해결).
+  색과 밑줄 애니메이션은 계속 li 쪽 규칙이 담당하므로 a 는 상속만 받게 둔다 -
+  여기서 a 에 color 를 다시 지정하면 li:hover 색 변화가 먹지 않는다.
+*/
+.nav__menu li a,
+.footer__column li a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+
+/*
+  제품 페이지 링크는 섹션 링크와 구분되게 살짝 강조하고, 로고 마크를 앞에 둔다.
+
+  선택자에 li 를 끼워 넣은 건 우선순위 때문이다. 위쪽 `.nav__menu li a` 가 display: block 이고,
+  index.css 의 전역 `img { display: block }` 때문에 마크가 제 줄을 차지해 글자가 아래로 밀렸다.
+  `.nav__menu-item--product a` 만으로는 그 규칙을 못 이긴다 - li 를 빼지 말 것.
+*/
+.nav__menu li.nav__menu-item--product a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--white);
+  font-weight: 600;
+}
+
+.nav__product-mark {
+  height: 20px;
+  width: auto;
+  flex-shrink: 0;
 }
 
 .nav__hamburger {
@@ -575,45 +619,12 @@
   z-index: 1;
 }
 
-.service-section__diagrams {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-.service-section__diagram {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 28px;
-  transition: all var(--transition-normal);
-}
-
-.service-section--dark .service-section__diagram,
-.service-section--gradient .service-section__diagram {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.service-section__diagram:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-}
-
-.service-section__diagram--single {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.service-section__diagram h4 {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--primary-light);
-  margin-bottom: 20px;
-  text-align: center;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
+/*
+  2026-10-10: .service-section__diagrams / .service-section__diagram / --single 규칙을 지웠다.
+  블록체인 섹션의 구성도 이미지 카드 전용이었고, 그 이미지를 걷어내면서 쓰는 곳이 없어졌다.
+  아래 .service-section__diagram-img--clickable 과 __diagram-zoom 은 남겨 둘 것 -
+  랜섬디펜스 · 소프트필터 화면과 빅데이터 섹션이 계속 쓴다.
+*/
 .service-section__diagram-img {
   background: #ffffff;
   border-radius: 12px;
@@ -1247,11 +1258,23 @@
 /* ===================================
    BLOCKCHAIN DETAIL (소개서 v1.11 slide9)
 =================================== */
+/*
+  2026-10-10: 블록체인 구성도 이미지를 걷어내면서 이 블록이 섹션 아래가 아니라
+  service-section__visual(오른쪽 열) 안으로 들어왔다. 그 안에서는 폭이 좁으므로
+  1단으로 쌓고 위 여백을 없앤다 - 아래 .service-section__visual .bc-detail 규칙 참고.
+  섹션 하단에 다시 꺼내 쓸 일이 생기면 그 규칙만 떼면 된다.
+*/
 .bc-detail {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 32px;
   margin-top: 64px;
+}
+
+.service-section__visual .bc-detail {
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 0;
 }
 
 .bc-detail__col {
@@ -1999,10 +2022,6 @@
     font-size: 1rem;
   }
 
-  .service-section__diagram {
-    padding: 20px;
-  }
-
   .service-section__diagram-img {
     padding: 16px;
   }
@@ -2110,4 +2129,62 @@
     flex-direction: column;
     gap: 32px;
   }
+}
+
+/*
+  2026-10-07: 사업분야 섹션에서 제품 소개 페이지(/safeprom/)로 보내는 링크.
+  지금은 인공지능 섹션에서만 쓰지만, 제품이 늘면 다른 service-section 에서도 그대로 쓸 수 있게
+  섹션 한정 선택자로 묶지 않았다.
+*/
+.service-section__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: var(--white);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition: all var(--transition-normal);
+}
+
+.service-section__link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateX(4px);
+}
+
+/* 밝은 배경 섹션에서는 흰 테두리가 보이지 않으므로 색을 뒤집는다. */
+.service-section--light .service-section__link {
+  border-color: var(--gray-300);
+  color: var(--primary-dark);
+}
+
+.service-section--light .service-section__link:hover {
+  background: var(--gray-100);
+  border-color: var(--primary-light);
+}
+
+/*
+  2026-10-20: 사업분야 섹션에서 제품 페이지로 보내는 버튼.
+  기존 .service-section__link(테두리만 있는 링크)보다 눈에 띄어야 해서 btn--primary 를 쓰되,
+  위쪽 목록과 붙지 않게 여백만 더한다.
+*/
+.service-section__cta {
+  margin-top: 28px;
+  gap: 8px;
+}
+
+/* 회사 정보의 이메일 링크. 다른 값들과 같은 크기로 두되 클릭 가능함만 표시한다. */
+.about__info-link {
+  color: var(--primary-dark);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  align-self: flex-start;
+}
+
+.about__info-link:hover {
+  color: var(--primary);
 }
