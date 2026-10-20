@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { safepromContact } from '../data/safeprom'
 
 /*
@@ -19,10 +19,46 @@ import { safepromContact } from '../data/safeprom'
 */
 const ENDPOINT = 'https://kblofgg2l6jigxz5hwjzlzv4340sxtah.lambda-url.ap-northeast-2.on.aws/'
 
+/*
+  Cloudflare Turnstile 사이트 키. 공개 전제로 설계된 값이라 코드에 둬도 된다
+  (짝이 되는 시크릿 키는 Lambda 환경변수에만 있다 - 여기에 적지 말 것).
+
+  위젯만 붙여서는 아무 소용이 없다. 실제 방어는 Lambda 가 이 토큰을
+  Cloudflare siteverify 로 검증하는 쪽이다 - infra/contact-lambda/index.mjs 참고.
+
+  위젯이 허용하는 호스트가 todayiz.io 하나라, 로컬 개발 주소에서는 토큰이 발급되지 않는다.
+  개발 중에 폼을 끝까지 돌려 보려면 Cloudflare 가 제공하는 테스트 키
+  '1x00000000000000000000AA'(항상 통과)로 잠시 바꿔 쓸 것. 배포 전에 되돌려야 한다.
+*/
+const TURNSTILE_SITE_KEY = '0x4AAAAAAFccImuZY-bo0shv'
+
+declare global {
+  interface Window {
+    turnstile?: { render: (el: HTMLElement, opts: { sitekey: string }) => void }
+  }
+}
+
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>('idle')
+
+  /*
+    Turnstile 스크립트를 이 컴포넌트가 화면에 있을 때만 불러온다.
+    index.html 에 넣으면 제품 페이지 전체에서 로드돼 첫 화면이 느려진다.
+
+    스크립트가 data-sitekey 가 붙은 요소를 알아서 찾아 렌더하므로
+    아래 div 의 className 을 바꾸더라도 data-sitekey 속성은 지우지 말 것.
+  */
+  useEffect(() => {
+    if (document.querySelector('script[data-turnstile]')) return
+    const script = document.createElement('script')
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js'
+    script.async = true
+    script.defer = true
+    script.dataset.turnstile = 'true'
+    document.head.appendChild(script)
+  }, [])
 
   /*
     ENDPOINT 가 없을 때의 대체 경로.
@@ -62,7 +98,11 @@ export function ContactForm() {
 
     setStatus('sending')
     try {
-      // Lambda 가 JSON.parse 로 읽으므로 FormData 가 아니라 JSON 으로 보낸다.
+      /*
+        Lambda 가 JSON.parse 로 읽으므로 FormData 가 아니라 JSON 으로 보낸다.
+        Turnstile 위젯이 폼 안에 숨은 input 으로 넣어 주는 cf-turnstile-response 도
+        이 안에 함께 실린다 - Lambda 가 그 값으로 사람 여부를 검증한다.
+      */
       const payload = Object.fromEntries(new FormData(form).entries())
       const res = await fetch(ENDPOINT, {
         method: 'POST',
@@ -119,13 +159,20 @@ export function ContactForm() {
         className="sp-form__trap"
       />
 
+      {/* 위젯. Managed 모드라 대부분의 방문자는 아무 조작 없이 통과한다. */}
+      <div
+        className="cf-turnstile sp-form__turnstile"
+        data-sitekey={TURNSTILE_SITE_KEY}
+        data-theme="dark"
+      />
+
       <button className="btn btn--primary sp-form__submit" type="submit" disabled={status === 'sending'}>
         {status === 'sending' ? '보내는 중…' : '문의 보내기'}
       </button>
 
       {status === 'error' && (
         <p className="sp-form__error">
-          전송에 실패했습니다. 번거로우시겠지만 {safepromContact.email} 로 보내 주세요.
+          전송에 실패했습니다. 잠시 뒤 다시 시도하시거나 {safepromContact.email} 로 보내 주세요.
         </p>
       )}
     </form>

@@ -1002,6 +1002,12 @@
   opacity: 0;
 }
 
+/* Turnstile 위젯. 제출 버튼 바로 위에 둔다. */
+.sp-form__turnstile {
+  margin-top: 4px;
+  min-height: 65px;
+}
+
 .sp-form__submit {
   align-self: flex-start;
   margin-top: 6px;
