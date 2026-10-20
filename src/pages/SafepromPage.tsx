@@ -9,11 +9,10 @@ import chatImg from '../assets/세이프롬채팅화면.jpg'
 import credentialBlockImg from '../assets/세이프롬인증정보차단.jpg'
 // 'AI 연결' 캡처는 투어를 4장으로 추리면서 뺐다. 파일은 src/assets 에 남아 있다.
 // '사용량' 캡처는 화면에 환율·금액이 박혀 있어 투어에서 뺐다 (data/safeprom.ts 주석 참고).
-import securityPolicyImg from '../assets/세이프롬보안정책.png'
+// '보안 정책' 캡처는 정책 모델이 그대로 보여 뺐다 (특허 출원 중).
 // '가림 미리보기' 캡처는 동작 방식이 그대로 보여 투어에서 뺐다 (특허 출원 중).
 import {
   safepromContact,
-  safepromDefaults,
   safepromFaq,
   safepromFeatureBaseline,
   safepromFeatures,
@@ -197,25 +196,15 @@ export default function SafepromPage() {
                     .filter((feature) => feature.role === role)
                     .map((feature) => (
                       <article key={feature.no} className="sp-feature">
-                        <div className="sp-feature__head">
-                          <span
-                            className={`sp-feature__no sp-feature__no--${
-                              role === '관리자' ? 'admin' : 'staff'
-                            }`}
-                          >
-                            {feature.no}
-                          </span>
-                        </div>
+                        <span
+                          className={`sp-feature__no sp-feature__no--${
+                            role === '관리자' ? 'admin' : 'staff'
+                          }`}
+                        >
+                          {feature.no}
+                        </span>
                         <h4>{feature.title}</h4>
-                        <p className="sp-feature__example">예) {feature.example}</p>
-                        <ul>
-                          {feature.points.map((point) => (
-                            <li key={point}>{point}</li>
-                          ))}
-                        </ul>
-                        <p className="sp-feature__guard">
-                          <strong>안전장치</strong> {feature.guard}
-                        </p>
+                        <p>{feature.detail}</p>
                       </article>
                     ))}
                 </div>
@@ -325,55 +314,12 @@ export default function SafepromPage() {
           </div>
         </section>
 
-        {/* 기본값 */}
-        <section className="sp-section sp-section--muted">
-          <div className="container">
-            <header className="sp-section__head">
-              <span className="sp-eyebrow">기본 설정</span>
-              <h2>위험한 기능은 처음부터 꺼져 있습니다</h2>
-            </header>
-
-            <div className="sp-table-wrap">
-              <table className="sp-table sp-table--defaults">
-                <thead>
-                  <tr>
-                    {safepromDefaults.headers.map((header) => (
-                      <th key={header}>{header}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {safepromDefaults.rows.map((row) => (
-                    <tr key={row[0]}>
-                      <th scope="row">{row[0]}</th>
-                      <td className="sp-table__highlight">{row[1]}</td>
-                      <td>{row[2]}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/*
-              표와 같은 내용을 실제 관리자 화면으로 한 번 더 보여 준다.
-              이 캡처만 소개서 v1.1(슬라이드 10)에서 가져왔다 - 나머지 화면은 매뉴얼 쪽이다.
-              v1.1 의 다른 캡처를 추가할 때는 data/safeprom.ts 상단 비공개 목록 5번을 먼저 읽을 것
-              (로그인 · OTP · 조직계정은 구 브랜딩, 사용량 · LLM연결은 촬영 날짜와 단가가 박혀 있다).
-            */}
-            <figure className="sp-policy-shot">
-              <img
-                src={securityPolicyImg}
-                alt="보안 정책 관리 화면 - 이미지 첨부 · 대화 보존 기간 · 웹검색 · 데이터 분석 설정"
-                loading="lazy"
-                onClick={() => setModalImage({ src: securityPolicyImg, alt: '보안 정책 관리 화면' })}
-              />
-              <figcaption>관리자가 회사 단위로 기능을 켜고 끕니다</figcaption>
-            </figure>
-
-            <p className="sp-disclaimer">※ {safepromScreensNotice}</p>
-          </div>
-        </section>
-
+        {/*
+          2026-10-20: '위험한 기능은 처음부터 꺼져 있습니다' 기본값 표와
+          보안 정책 관리자 화면 캡처를 걷어냈다.
+          정책 모델과 운영 설정이 그대로 드러나서다 (특허 출원 중).
+          같은 메시지는 위 원칙 섹션이 받는다 - 되살리지 말 것.
+        */}
         {/* 도입 안내 */}
         <section id="sp-rollout" className="sp-section sp-section--dark">
           <div className="container">
@@ -394,19 +340,6 @@ export default function SafepromPage() {
                 {safepromRollout.steps.map((step) => (
                   <li key={step.no}>
                     <span className="sp-steps__no">{step.no}</span>
-                    <strong>{step.title}</strong>
-                    <span>{step.detail}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-
-            <div className="sp-steps">
-              <h3 className="sp-table-title">첫 설정은 10분이면 끝납니다</h3>
-              <ol className="sp-setup">
-                {safepromRollout.setup.map((step) => (
-                  <li key={step.no}>
-                    <span className="sp-setup__no">{step.no}</span>
                     <strong>{step.title}</strong>
                     <span>{step.detail}</span>
                   </li>

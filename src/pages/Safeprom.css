@@ -17,9 +17,6 @@
 .sp-promise p,
 .sp-problem p,
 .sp-section__head p,
-.sp-feature__example,
-.sp-feature ul li,
-.sp-feature__guard,
 .sp-guard ul li,
 .sp-baseline,
 .sp-tour__copy p,
@@ -358,13 +355,16 @@
   gap: 20px;
 }
 
+/*
+  2026-10-20: 기능 카드가 '제목 + 한 줄'로 단순해지면서
+  .sp-feature__head / __example / __guard / ul 규칙을 지웠다.
+  카드 안에 다시 목록을 넣지 말 것 - 사유는 data/safeprom.ts 상단 특허 주석 참고.
+*/
 .sp-feature {
-  display: flex;
-  flex-direction: column;
   background: var(--white);
   border: 1px solid var(--gray-200);
   border-radius: 16px;
-  padding: 26px 22px;
+  padding: 24px 22px;
   transition: all var(--transition-normal);
 }
 
@@ -374,42 +374,26 @@
   box-shadow: var(--shadow-lg);
 }
 
-.sp-feature__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
-
 .sp-feature__no {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 28px;
   height: 28px;
   border-radius: 8px;
-  background: var(--primary);
   color: var(--white);
   font-size: 0.8125rem;
   font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-bottom: 14px;
 }
 
-/* 직원용 · 관리자용 기능을 색으로 구분한다 (소개서의 역할 표기를 그대로 따른 것). */
-.sp-feature__role {
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 999px;
+/* 직원 · 관리자를 번호 칩 색으로 구분한다. */
+.sp-feature__no--staff {
+  background: var(--primary);
 }
 
-.sp-feature__role--staff {
-  background: rgba(99, 102, 241, 0.12);
-  color: var(--primary-dark);
-}
-
-.sp-feature__role--admin {
-  background: rgba(6, 182, 212, 0.14);
-  color: #0e7490;
+.sp-feature__no--admin {
+  background: #0e7490;
 }
 
 .sp-feature h4 {
@@ -417,13 +401,16 @@
   font-weight: 700;
   color: var(--gray-900);
   margin-bottom: 8px;
+  word-break: keep-all;
 }
 
-/*
-  2026-10-20: 기능이 직원 6 / 관리자 6 두 묶음으로 나뉘었다.
-  묶음 제목이 역할을 말해 주므로 카드마다 붙던 역할 배지(.sp-feature__role)는 뺐고,
-  대신 번호 칩 색으로 구분한다 - 배지를 되살리면 같은 정보가 두 번 나온다.
-*/
+.sp-feature p {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--gray-600);
+  word-break: keep-all;
+}
+
 .sp-feature-group + .sp-feature-group {
   margin-top: 64px;
 }
@@ -435,64 +422,6 @@
   margin-bottom: 24px;
   padding-left: 14px;
   border-left: 4px solid var(--primary);
-}
-
-.sp-feature__no--staff {
-  background: var(--primary);
-}
-
-.sp-feature__no--admin {
-  background: #0e7490;
-}
-
-.sp-feature__example {
-  font-size: 0.8125rem;
-  color: var(--gray-500);
-  margin-bottom: 16px;
-}
-
-.sp-feature ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 18px;
-}
-
-.sp-feature ul li {
-  position: relative;
-  padding-left: 14px;
-  font-size: 0.875rem;
-  line-height: 1.65;
-  color: var(--gray-600);
-}
-
-.sp-feature ul li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 9px;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--primary-light);
-}
-
-/* 안전장치 줄은 카드 맨 아래에 붙여 카드 높이가 달라도 선이 맞게 한다. */
-.sp-feature__guard {
-  margin-top: auto;
-  padding-top: 14px;
-  border-top: 1px solid var(--gray-200);
-  font-size: 0.8125rem;
-  line-height: 1.6;
-  color: var(--gray-600);
-}
-
-.sp-feature__guard strong {
-  display: block;
-  color: var(--primary-dark);
-  font-size: 0.75rem;
-  margin-bottom: 4px;
 }
 
 .sp-baseline {
