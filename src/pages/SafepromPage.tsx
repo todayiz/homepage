@@ -320,8 +320,12 @@ export default function SafepromPage() {
               같은 말을 세 번 하는 꼴이었다. 절차만 남겨 흐름이 끊기지 않게 했다.
             */}
 
+            {/*
+              2026-10-20: '도입 절차' 소제목을 뺐다.
+              위 머리말이 이미 '도입 안내' + '문의부터 전사 도입까지' 라
+              같은 말이 세 번 겹쳤다. 이 섹션에 다른 목록이 생기면 그때 다시 붙일 것.
+            */}
             <div className="sp-steps">
-              <h3 className="sp-table-title">도입 절차</h3>
               <ol className="sp-steps__list">
                 {safepromRollout.steps.map((step) => (
                   <li key={step.no}>

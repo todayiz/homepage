@@ -15,7 +15,6 @@
 */
 .sp-hero__summary,
 .sp-section__head p,
-.sp-setup li span,
 .sp-faq__item p,
 .sp-disclaimer {
   word-break: keep-all;
@@ -684,6 +683,56 @@
 }
 
 /* ===================================
+   도입 절차
+=================================== */
+/*
+  2026-10-20: 투어 CSS 를 교체하면서 이 블록이 함께 지워졌던 것을 복구했다.
+  소제목('도입 절차')은 머리말과 겹쳐 마크업에서 뺐으므로 위 여백을 두지 않는다.
+*/
+.sp-steps {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.sp-steps__list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* 번호와 제목만 들어가므로 한 줄로 붙인다. */
+.sp-steps__list li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 24px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+}
+
+.sp-steps__no {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--primary);
+  color: var(--white);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.sp-steps__list li strong {
+  font-size: 1.0625rem;
+  color: var(--white);
+  word-break: keep-all;
+}
+
+/* ===================================
    문의 폼
 =================================== */
 .sp-contact-wrap {
@@ -914,8 +963,7 @@
   .sp-problem-grid,
   .sp-feature-grid,
   .sp-guard-grid,
-  .sp-principles,
-  .sp-setup {
+  .sp-principles {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -944,10 +992,6 @@
   .sp-guard-grid,
   .sp-principles,
   .sp-steps__list,
-  .sp-setup {
-    grid-template-columns: 1fr;
-  }
-
   /* 좁은 화면에서는 한 열로 쌓는다. */
   .sp-tour {
     grid-template-columns: 1fr;
