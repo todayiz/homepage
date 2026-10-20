@@ -248,8 +248,8 @@
 .sp-problem {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  min-height: 112px;
+  gap: 8px;
+  min-height: 128px;
   padding: 22px 22px;
   background: var(--gray-50);
   border: 1px solid var(--gray-200);
@@ -266,6 +266,13 @@
   font-size: 1.0625rem;
   font-weight: 700;
   color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.sp-problem p {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--gray-600);
   word-break: keep-all;
 }
 

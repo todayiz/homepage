@@ -130,6 +130,7 @@ export default function SafepromPage() {
                 <div key={item.no} className="sp-problem">
                   <span className="sp-problem__no">{item.no}</span>
                   <h3>{item.title}</h3>
+                  <p>{item.detail}</p>
                 </div>
               ))}
             </div>
